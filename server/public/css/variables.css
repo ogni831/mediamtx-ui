@@ -1,0 +1,52 @@
+:root {
+    --text-color: #333;
+    --text-light-color: #666;
+    --color-primary: #1a65b7;
+    --color-secondary: #1d538d;
+    --color-primary-conter: #8d311c;
+    --color-secondary-conter: #4f1306;
+
+    --color-warning: #8d311c;
+    --font-family: Lexend Deca, sans-serif;
+    --page-bg: white;
+    --light-border-color: #ddd;
+    --light-bg: #f0f0f0;
+    --light-med-bg: #eee;
+
+    --shift-001: rgba(0, 0, 0, 0.01);
+    --shift-002: rgba(0, 0, 0, 0.02);
+    --shift-005: rgba(0, 0, 0, 0.05);
+    --shift-01: rgba(0, 0, 0, 0.1);
+    --shift-02: rgba(0, 0, 0, 0.2);
+
+    --space-s: 5px;
+    --space-m: 10px;
+    --space-l: 15px;
+    --space-xl: 20px;
+    --space-xxl: 30px;
+
+    --fs-xxs:7px;
+    --fs-xs: 8px;
+    --fs-s: 9px;
+    --fs-m:  10px;
+    --fs: 12px;
+    --fs-l: 14px;
+    --fs-ml: 16px;
+    --fs-xl: 20px;
+    --fs-xxl: 25px;
+}
+
+:root[data-theme="dark"] {
+    --text-color: #ddd;
+    --text-light-color: #999;
+    --page-bg: #333;
+    --light-border-color: #555;
+    --light-bg: #444;
+    --light-med-bg: #222;
+
+    --shift-001: rgba(255, 255, 255, 0.01);
+    --shift-002: rgba(255, 255, 255, 0.02);
+    --shift-005: rgba(255, 255, 255, 0.05);
+    --shift-01: rgba(255, 255, 255, 0.1);
+    --shift-02: rgba(255, 255, 255, 0.2);
+}

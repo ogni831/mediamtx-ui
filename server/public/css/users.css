@@ -1,0 +1,115 @@
+.users {
+    margin-top: 150px;
+
+    .user-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 16px;
+        margin-bottom: 20px;
+    }
+
+    .user {
+        background-color: var(--shift-005);
+        position: relative;
+        border: 1px solid var(--light-border-color);
+        border-radius: 5px;
+        padding: 20px 10px;
+
+        .index {
+            display: block;
+            position: absolute;
+            left: -200px;
+            top: -10px;
+            font-size: 100px;
+            font-weight: 900;
+        }
+
+        input {
+            width: calc(100% - 20px);
+        }
+
+        .form-item {
+            width: 100%;
+
+            &.select-text {
+                input[type=text] {
+                    font-weight: 400;
+                    font-size: 25px;
+                    border: none;
+                    border-bottom: 2px solid var(--light-border-color);
+                    display: none;
+                }
+
+                select {
+                    font-size: 25px;
+                    margin: 0;
+                    position: relative;
+                    border: none;
+                    border-bottom: 2px solid var(--light-border-color);
+                    width: 100%;
+                }
+
+                button.clear{
+                    bottom: 16px;
+                }
+
+                &.custom {
+                    select {
+                        right: 0;
+                        width: 100px;
+                        position: absolute;
+                    }
+
+                    input[type=text] {
+                        width: calc(100% - 125px);
+                        display: block;
+                    }
+                }
+            }
+        }
+    }
+
+    button {
+        overflow: hidden;
+        display: block;
+
+        &.add {
+            margin: auto;
+            display: block;
+            padding-left: 45px;
+            position: relative;
+
+            svg {
+                width: 20px;
+                height: 100%;
+                position: absolute;
+                left: 0;
+                top: 0;
+                padding: 0 8px;
+                background-color: rgba(0, 0, 0, 0.2);
+                border-radius: 3px;
+            }
+
+
+        }
+
+        &.delete {
+            background-color: var(--color-primary-conter);
+            padding-left: 45px;
+            position: relative;
+            margin: 20px auto 0 auto;
+
+            svg {
+                width: 20px;
+                height: 100%;
+                position: absolute;
+                left: 0;
+                top: 0;
+                padding: 0 8px;
+                background-color: rgba(0, 0, 0, 0.2);
+                border-radius: 3px;
+            }
+        }
+    }
+
+}

@@ -1,0 +1,62 @@
+###############################################
+# mediamtx-ui default configuration
+#
+# Tailored for MediaMTX v1.9.3 + mediamtx-ui.
+# Copy this file to config/mediamtx.yml and adjust if needed.
+#
+# The Control API and metrics are REQUIRED by mediamtx-ui and are
+# therefore enabled explicitly below (they are "no" in the stock config).
+###############################################
+
+# Control API. Required by the UI to read/patch the running config.
+api: yes
+apiAddress: :9997
+
+# Metrics endpoint. Used by the UI monitoring page.
+metrics: yes
+metricsAddress: :9998
+
+###############################################
+# Protocol servers
+
+# RTSP
+rtsp: yes
+# In 1.9.3 the RTSP transports key is "protocols" (renamed to rtspTransports in newer versions).
+protocols: [tcp, udp, multicast]
+rtspAddress: :8554
+
+# RTMP
+rtmp: yes
+rtmpAddress: :1935
+
+# HLS
+hls: yes
+hlsAddress: :8888
+hlsAlwaysRemux: no
+hlsVariant: lowLatency
+
+# WebRTC
+webrtc: yes
+webrtcAddress: :8889
+webrtcLocalUDPAddress: :8189
+# Add the LAN hostname / IP clients use to reach the box, e.g. raspberrypi.local
+webrtcAdditionalHosts: []
+
+# SRT
+srt: yes
+srtAddress: :8890
+
+###############################################
+# Paths (streams)
+#
+# Edit / add your sources here, or manage them at runtime from the UI.
+paths:
+  cam1:
+    source: rtsp://USERNAME:PASSWORD@CAMERA_IP:554/PATH
+    sourceOnDemand: yes
+  cam2:
+    source: publisher
+  cam3:
+    source: publisher
+  cam4:
+    source: publisher

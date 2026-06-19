@@ -1,0 +1,147 @@
+import Component from "./Component.js";
+import Button from "./button.js";
+
+export default class PermissionsInput extends Component {
+    constructor(options) {
+        super(options);
+
+        this.elementTag = 'input';
+        this.elementProps = {
+            type: 'hidden',
+            name: `input-${this.name}`,
+            value: JSON.stringify(this.value)
+        };
+        this.init();
+        this.render();
+    }
+
+    render() {
+        super.render();
+        this.renderTextInputs();
+
+
+        this.targetElement.append(this.element);
+        this.targetElement.append(this.inputs);
+        this.targetElement.classList.add('rows');
+    }
+
+    renderTextInputs() {
+        this.inputs = document.createElement('div');
+        this.inputs.className = 'multi-row permissions';
+
+        this.rows = [];
+        this.value.forEach(value => {
+            if (value === '')
+                return;
+
+            const row = this.renderRow(value);
+            this.inputs.append(row);
+            this.rows.push(row);
+        });
+
+        const row = this.renderRow('');
+        this.inputs.append(row);
+        this.rows.push(row);
+    }
+
+    renderRow(value) {
+        const row = document.createElement('div');
+        row.className = 'row';
+
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.value = value.path || '';
+        input.name = `input-${this.name}-path`;
+        input.onblur = e => this.concatValue();
+        input.onkeyup = e => e.key === 'Enter' ? this.concatValue() : null;
+        input.placeholder = 'path ...';
+
+        const select = document.createElement('select');
+        select.name = `input-${this.name}-action`;
+
+        ['', 'publish', 'read', 'playback', 'api', 'metrics', 'pprof'].forEach(option => {
+            const o = document.createElement("option");
+            o.innerHTML = o.value = option;
+            select.append(o);
+        });
+
+        select.change = e => this.concatValue();
+        select.oninput = e => {
+            this.concatValue();
+            input.focus();
+        }
+        select.value = value.action;
+
+        row.append(select);
+        row.append(input);
+
+        // the clear button
+        const clearButton = new Button({
+            parent: this.parent,
+            storeKey: this.storeKey,
+            store: this.store,
+            prop: this.prop,
+            inputType: this.inputType,
+            values: this.values,
+            locked: this.locked,
+            elementOptions: {
+                innerHTML: '🞬',
+                className: 'button clear',
+                onclick: (e) => this.clearRow(row)
+            }
+        });
+        row.append(clearButton.element);
+
+        return row;
+    };
+
+    concatValue() {
+        const values = [];
+        const rows = [...this.inputs.querySelectorAll('.row')];
+        rows.forEach(row => {
+            const action = row.querySelector('select').value;
+            const path = row.querySelector('input[type=text]').value;
+            action !== '' ? values.push({
+                action: action,
+                path: path,
+            }) : null;
+        });
+
+        // drop all empty rows
+        rows.forEach(row => {
+            const select = row.querySelector('select');
+            if (select.value === '')
+                row.remove();
+        });
+        // add new empty row
+        const add = this.renderRow({action: '', path: ''});
+        this.inputs.append(add);
+
+        this.element.value = JSON.stringify(values);
+        this.value = values; // debounced
+    }
+
+    setValue(value) {
+        super.setValue(value);
+        this.check();
+    }
+
+    check() {
+        this.parent.element.querySelector('.multi-row').remove();
+        this.renderTextInputs();
+        this.parent.element.append(this.inputs);
+    }
+
+    clearRow(row) {
+        row.remove();
+        const index = this.rows.indexOf(row);
+        delete this.rows[index];
+        this.concatValue();
+    }
+}
+
+const splitCamelCase = (str) => {
+    return str
+        .replace(/([a-z])([A-Z])/g, '$1 $2')
+        .replace(/([A-Z]+)([A-Z][a-z])/g, '$1 $2');
+}

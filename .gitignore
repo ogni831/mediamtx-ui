@@ -1,0 +1,17 @@
+.idea
+node_modules
+data/**/*
+.env
+mediamtx.yml
+# NOTE: upstream gitignored the whole Settings/ source tree, which is why the
+# reactive settings layer was never published. These are first-class source
+# files and must be tracked.
+/script
+/config/backup/**/*
+/config/auth.json
+/config/sessions/**/*
+server/build/**/*
+media/**/*
+
+!data/default.json
+!.gitkeep

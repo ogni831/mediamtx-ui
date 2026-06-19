@@ -1,0 +1,370 @@
+:root {
+    --slider-width: 100%;
+    --slider-height: 12px;
+    --slider-track-bg: var(--light-bg);
+    --slider-range-bg: #3b82f6;
+    --slider-handle-size: 20px;
+    --slider-handle-border: 2px;
+    --slider-focus-ring: 4px;
+}
+
+.form-item {
+    width: 100%;
+    display: inline-block;
+    position: relative;
+    margin-bottom: 15px;
+
+    &:hover {
+        button.clear {
+            background-color: var(--color-primary);
+            color: white;
+        }
+    }
+
+    button.clear {
+        position: absolute;
+        right: 22px;
+        bottom: 9px;
+        padding: 0 2px;
+        background-color: var(--light-med-bg);
+        color: var(--text-light-color);
+        line-height: 20px;
+        width: 20px;
+    }
+
+    &.select-text {
+        select {
+            float: none;
+        }
+
+        input[type=text] {
+            display: none;
+        }
+
+        &.custom {
+            select {
+                width: 20%;
+                margin-right: 5px;
+                float: left;
+            }
+
+            input[type=text] {
+                display: block;
+                width: calc(80% - 27px);
+            }
+        }
+    }
+
+    &.name {
+        &.custom {
+            input[type=text] {
+                width: calc(80% - 70px);
+            }
+        }
+    }
+
+    &.help {
+        label {
+        }
+
+        button {
+            opacity: 1;
+
+            svg {
+                path {
+                    &:nth-child(1) {
+                        stroke: var(--color-primary);
+                        fill: var(--color-primary);
+                    }
+                }
+            }
+        }
+    }
+
+    &.switch {
+        min-height: 55px;
+
+        label {
+            position: absolute;
+            left: 50px;
+            top: 20px;
+        }
+
+        input[type=checkbox] {
+            transform: translateY(0px);
+        }
+    }
+
+    &.rows {
+        &:hover {
+            button.clear {
+                background-color: var(--light-med-bg);
+            }
+        }
+
+        .multi-row {
+            .row {
+                position: relative;
+                margin-bottom: 5px;
+
+                button.clear {
+                    bottom: 9px;
+                    right: 10px;
+                }
+
+                &:hover {
+                    button {
+                        background-color: var(--color-primary);
+                    }
+                }
+            }
+        }
+
+        .permissions {
+            .row {
+                display: flex;
+
+                select {
+                    flex: 1;
+                }
+
+                input {
+                    flex: 3;
+                    width: 100%;
+                }
+
+                button.clear {
+                    right: 5px;
+                }
+
+                &:hover {
+                    button {
+                        background-color: var(--color-primary);
+                    }
+                }
+            }
+        }
+    }
+
+    .checkboxes {
+        width: 100%;
+
+        .box {
+            display: inline-block;
+            overflow: hidden;
+            padding: 5px 0;
+            margin-right: 20px;
+
+            label {
+                margin: 0;
+                display: inline-block;
+            }
+
+            input {
+                display: inline-block;
+                margin: 0 50px 3px 0;
+            }
+        }
+    }
+
+    &.duration-slider {
+
+    }
+
+    &.number-slider {
+        position: relative;
+
+        input[type=text] {
+            width: 60px;
+            text-align: center;
+        }
+
+        .slider-container {
+            position: absolute;
+            display: block;
+            width: calc(100% - 110px);
+            right: 12px;
+            bottom: 0;
+            z-index: 100;
+        }
+
+        .slider {
+            height: 100%;
+            position: relative;
+
+            input {
+                position: absolute;
+                top: 0;
+                left: 0;
+
+
+                &:hover {
+                    z-index: 1000;
+                    background-color: red;
+                }
+
+                z-index: 1;
+            }
+
+            input:nth-child(1) {
+
+            }
+        }
+
+        .range-highlight {
+            background-color: var(--color-primary);
+            height: 10px;
+
+        }
+
+        .slider-wrap {
+            width: var(--slider-width);
+            user-select: none;
+        }
+
+        .slider {
+            position: relative;
+            height: calc(var(--slider-handle-size));
+            padding: calc(var(--slider-handle-size) / 2) 0;
+        }
+
+        .track {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 2px;
+            background: var(--slider-track-bg);
+            border-radius: 999px;
+        }
+
+        .range {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 4px;
+            background: var(--color-primary);
+            border-radius: 999px;
+        }
+
+        .handle {
+            position: absolute;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: var(--slider-handle-size);
+            height: var(--slider-handle-size);
+            border-radius: 20px;
+            background-color: var(--color-primary);
+            border: 1px solid var(--color-primary);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+            touch-action: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-color);
+            cursor: grab;
+            font-weight: 600;
+            font-size: var(--fs-xxs);
+        }
+
+        .handle[aria-grabbed="true"] {
+            cursor: grabbing;
+
+        }
+
+        .handle:focus,
+        .handle:focus-within,
+        .handle:active {
+            background-color: var(--color-secondary);
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 var(--slider-focus-ring) rgba(37, 99, 235, 1);
+        }
+
+        .value-label {
+            position: absolute;
+            top: 22px;
+            height: 10px;
+            font-size: 12px;
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+
+            i {
+                display: inline-block;
+                border-left: 1px solid var(--light-border-color);
+            }
+        }
+    }
+
+    &.range-slider {
+        .slider-container {
+            width: calc(100% - 200px);
+        }
+
+        .slider-input {
+            input:nth-child(2) {
+                margin-left: 10px;
+            }
+        }
+    }
+
+    &.available-tracks {
+        .rows {
+            .row {
+                position: relative;
+                margin-bottom: var(--space-s);
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+
+                button.clear {
+                    top: 9px;
+                    right: 22px;
+                    bottom: inherit;
+                }
+
+                select[name=codec] {
+                    grid-column: 1 / -1;
+                }
+
+                input[name=sampleRate] {
+                    text-align: center;
+                }
+
+                input[name=channelCount] {
+                    text-align: center;
+                }
+
+                input[name=muLaw] {
+                    height: 40px;
+                    transform: translateY(5px);
+                }
+
+                label {
+                    position: absolute;
+                    bottom: 16px;
+                    left: 50px;
+                    text-transform: uppercase;
+                }
+
+            }
+        }
+    }
+
+}
+
+.tooltip {
+    position: absolute;
+    max-width: calc(100% - 50px);
+    min-width: 200px;
+    background-color: var(--color-primary);
+    color: white;
+    padding: 10px;
+    border-radius: 6px;
+    z-index: 1000;
+    font-size: 12px;
+    line-height: 16px;
+    left: 0;
+    top: 16px;
+}

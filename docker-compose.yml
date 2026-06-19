@@ -1,0 +1,65 @@
+networks:
+  camnet:
+    driver: bridge
+
+services:
+
+  mediamtxui:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ${PROJECT_NAME:-mediamtxui}
+    container_name: ${PROJECT_NAME:-mediamtxui}
+    working_dir: /app/server
+    restart: unless-stopped
+    # Run the app as the non-root "node" user baked into the image.
+    command: ["node", "index.js"]
+    networks:
+      - camnet
+    ports:
+      # Bound to loopback: this is a LAN/admin tool — expose it via the
+      # reverse proxy (see infra/nginx/mediamtx-ui.conf) or an SSH tunnel,
+      # never directly on 0.0.0.0.
+      - "127.0.0.1:${SERVER_PORT:-3000}:${SERVER_PORT:-3000}"
+    volumes:
+      # Persist runtime config (rotated mediamtx.yml backups, auth.json) and
+      # the file session store outside the container.
+      - ./config:/app/config
+    environment:
+      - NODE_ENV=production
+      - SERVER_PORT=${SERVER_PORT:-3000}
+      # Required (H1). Compose aborts if unset. Generate: openssl rand -hex 32
+      - SESSION_SECRET=${SESSION_SECRET:?set SESSION_SECRET in .env (openssl rand -hex 32)}
+      # TLS terminates at the reverse proxy over the LAN → cookie not forced
+      # secure by default; set "true" when serving the UI over HTTPS.
+      - SESSION_COOKIE_SECURE=${SESSION_COOKIE_SECURE:-false}
+      - SESSION_STORE_PATH=/app/config/sessions
+      - MEDIAMTX_API_URL_BASE=${MEDIAMTX_API_URL_BASE:-http://mediamtx:9997/v3}
+      - MEDIAMTX_METRICS_URL_BASE=${MEDIAMTX_METRICS_URL_BASE:-http://mediamtx:9998/metrics}
+    cap_drop:
+      - ALL
+    security_opt:
+      - "no-new-privileges:true"
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:'+(process.env.SERVER_PORT||3000)+'/auth/status').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+
+# -----------------------------------------------------------------------------
+# Local development override (hot reload + livereload + bind mount):
+#   create docker-compose.override.yml with:
+#     services:
+#       mediamtxui:
+#         command: ["node", "watch_css.js"]   # or your dev runner
+#         environment:
+#           - NODE_ENV=development
+#         volumes:
+#           - .:/app
+#           - /app/server/node_modules
+#         ports:
+#           - "127.0.0.1:35729:35729"
+# Pi/USB-camera capture (the original use case) also belongs in the override
+# via `devices: ['/dev/video0:/dev/video0', ...]` — never `privileged: true`.
+# -----------------------------------------------------------------------------

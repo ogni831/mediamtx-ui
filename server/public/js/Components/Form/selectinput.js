@@ -1,0 +1,63 @@
+import Component from "./Component.js";
+import Button from "./button.js";
+
+export default class SelectInput extends Component {
+    constructor(options) {
+        super(options);
+
+        this.elementTag = 'select';
+        this.elementProps = {
+            id: '',
+            className: '',
+            disabled: '',
+            dataset: {},
+            name: `input-${this.name}`,
+            value: this.value,
+            oninput: (e) => this.value = e.target.value,
+        };
+
+        this.init();
+        this.render();
+    }
+
+    render() {
+        super.render();
+
+        // add options
+        Array.isArray(this.values) ? this.values.forEach(option => {
+            const o = document.createElement("option");
+            o.innerHTML = o.value = option;
+            this.element.append(o);
+        }) : null;
+
+        this.targetElement.append(this.element);
+        this.setValue(this.value);
+
+        // the clear button
+        const clearButton = new Button({
+            parent: this.parent,
+            storeKey: this.storeKey,
+            store: this.store,
+            prop: this.prop,
+            inputType: this.inputType,
+            values: this.values,
+            locked: this.locked,
+            elementOptions: {
+                innerHTML: '🞬',
+                className: 'button clear',
+                onclick: (e) => this.value = ''
+            }
+        });
+
+        this.targetElement.append(clearButton.element);
+    }
+
+    setValue(value) {
+        super.setValue(value);
+        this.check();
+    }
+
+    check() {
+
+    }
+}

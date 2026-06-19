@@ -1,0 +1,21 @@
+# Secrets & runtime config — never bake into the image
+.env
+.env.*
+config/auth.json
+config/mediamtx.yml
+config/backup
+config/sessions
+
+# Dependencies & build output (reinstalled/rebuilt in the image)
+node_modules
+server/node_modules
+server/build
+
+# VCS / editor / CI noise
+.git
+.gitignore
+.github
+.idea
+.vscode
+*.md
+screenshots
