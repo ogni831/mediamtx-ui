@@ -37,13 +37,18 @@ export default class MediamtxProxy {
             targetUrl.searchParams.set(k, v);
         }
 
+        // Abort the upstream request if MediaMTX is slow/hung so requests
+        // don't pile up. Tunable via MEDIAMTX_PROXY_TIMEOUT_MS.
+        const timeoutMs = Number(process.env.MEDIAMTX_PROXY_TIMEOUT_MS) || 10000;
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), timeoutMs);
+
         try {
             if (this.beforeProxy) {
                 const ok = await this.beforeProxy(req, res);
-                if (!ok) return; // Hook übernimmt Fehlerantwort
+                if (!ok) return; // hook already sent the error response
             }
 
-            // Header setzen
             const headers = {};
 
             if (this.basicAuthHeader) {
@@ -57,9 +62,10 @@ export default class MediamtxProxy {
             const fetchOptions = {
                 method: req.method,
                 headers,
+                signal: controller.signal,
             };
 
-            // Body bei Bedarf weitergeben
+            // forward the body when present
             if (["POST", "PATCH", "PUT"].includes(req.method)) {
                 fetchOptions.body = JSON.stringify(req.body);
             }
@@ -74,8 +80,12 @@ export default class MediamtxProxy {
             }
 
         } catch (err) {
-            console.error("Proxy-Fehler:", targetUrl, err);
-            return res.status(502).json({error: "Bad Gateway", detail: err.message, err});
+            // Log details server-side; never echo the raw error object to the client.
+            console.error("Proxy error:", targetUrl.href, err?.message ?? err);
+            const detail = err?.name === "AbortError" ? "upstream timeout" : "upstream unreachable";
+            return res.status(502).json({error: "Bad Gateway", detail});
+        } finally {
+            clearTimeout(timer);
         }
     }
 

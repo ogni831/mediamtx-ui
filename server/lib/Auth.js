@@ -63,6 +63,12 @@ export default class Auth {
         if (!await argon2.verify(this.auth.password, password))
             return false;
 
+        // Regenerate the session id on this privilege change to prevent
+        // session fixation (the pre-login session id must not survive login).
+        await new Promise((resolve, reject) =>
+            req.session.regenerate(err => err ? reject(err) : resolve())
+        );
+
         req.session.isAuthenticated = true;
         return true;
     }
@@ -72,13 +78,17 @@ export default class Auth {
         if (!req.session.isAuthenticated)
             return;
 
+        const cookieSecure = process.env.SESSION_COOKIE_SECURE !== undefined
+            ? process.env.SESSION_COOKIE_SECURE === "true"
+            : process.env.NODE_ENV === "production";
+
         req.session.destroy(err => {
             if (err) return res.sendStatus(500);
 
             res.clearCookie("sid", {
                 httpOnly: true,
                 sameSite: "lax",
-                secure: process.env.NODE_ENV === "production",
+                secure: cookieSecure,
                 path: "/"
             });
 

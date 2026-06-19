@@ -2,7 +2,7 @@
 import argon2 from 'argon2';
 import process from 'process';
 
-process.stdout.write('Gib den String ein: ');
+process.stdout.write('Enter the value to hash: ');
 
 let input = '';
 process.stdin.setRawMode(true);
@@ -17,9 +17,9 @@ process.stdin.on('data', async (char) => {
 
         try {
             const hash = await argon2.hash(input);
-            console.log('\nArgon2-Hash:\n\n', hash, '\n');
+            console.log('\nArgon2 hash:\n\n', hash, '\n');
         } catch (err) {
-            console.error('Fehler beim Hashen:', err);
+            console.error('Hashing error:', err);
             process.exit(1);
         }
 

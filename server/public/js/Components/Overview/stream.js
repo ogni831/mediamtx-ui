@@ -48,10 +48,13 @@ export default class StreamItem {
         viewersEl.append(this.viewersNumberEl);
         el.append(viewersEl);
 
-        //--- video element
-        this.video = new Video(this);
-        el.append(this.video.render());
-        requestAnimationFrame(() => this.video.init());
+        //--- video element — only attach a player for paths that are actually
+        // ready (avoids creating HLS players + 404 polling for offline paths)
+        this.videoWrap = document.createElement("div");
+        this.videoWrap.className = 'stream-video';
+        el.append(this.videoWrap);
+        this.element = el;
+        this._renderVideo();
 
         //--- bytes
         const bytesEl = document.createElement("div");
@@ -89,12 +92,42 @@ export default class StreamItem {
         return this.element = el;
     }
 
+    // Create/tear down the HLS player based on the path's readiness.
+    _renderVideo() {
+        if (!this.videoWrap)
+            return;
+
+        if (this.data.ready) {
+            if (!this.video) {
+                this.placeholder?.remove();
+                this.placeholder = null;
+                this.video = new Video(this);
+                this.videoWrap.appendChild(this.video.render());
+                requestAnimationFrame(() => this.video.init());
+            }
+        } else {
+            if (this.video) {
+                this.video.destroy();
+                this.video = null;
+            }
+            if (!this.placeholder) {
+                this.placeholder = document.createElement("div");
+                this.placeholder.className = 'stream-offline';
+                this.placeholder.textContent = 'offline';
+                this.videoWrap.appendChild(this.placeholder);
+            }
+        }
+    }
+
     update(data) {
         Object.keys(data).forEach((key) => this.data[key] = data[key]);
     }
 
     action(action, prop, value) {
         if (action === 'update') {
+            if (prop === 'ready')
+                this._renderVideo();
+
             if (prop === 'readers')
                 this.viewers = value.length;
 
@@ -111,8 +144,9 @@ export default class StreamItem {
     }
 
     destroy() {
-        this.video.destroy();
-        this.element.remove();
+        this.video?.destroy();
+        this.video = null;
+        this.element?.remove();
     }
 
     get viewers() {

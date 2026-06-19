@@ -13,32 +13,28 @@ export default class MediaMTX {
         // Mediamtx configuration management
         this.config = new MediamtxConfig(this);
 
+        // Optional upstream Basic auth, used when the MediaMTX Control API has
+        // authentication enabled (authInternalUsers). Set via env.
+        const apiUser = process.env.MEDIAMTX_API_USER || false;
+        const apiPassword = process.env.MEDIAMTX_API_PASSWORD || false;
+
         this.proxy = new MediamtxApiProxy(this, {
             targetBaseUrl: this.apiUrlBase,
-            apiUser: false,
-            apiPassword: false,
+            apiUser,
+            apiPassword,
 
-            // optional: eigene Auth (JWT, API-Key, whatever)
+            // place to add your own gateway auth (API key, JWT, …) if needed
             beforeProxy: (req, res) => {
-                /*if (req.headers["x-api-key"] !== "meinkey") {
-                    res.status(401).json({ error: "Unauthorized" });
-                    return false;
-                }*/
                 return true;
             }
         });
 
         this.metrics = new MediamtxMetricsProxy(this, {
             targetBaseUrl: this.metricsUrlBase,
-            apiUser: false,
-            apiPassword: false,
+            apiUser,
+            apiPassword,
 
-            // optional: eigene Auth (JWT, API-Key, whatever)
             beforeProxy: (req, res) => {
-                /*if (req.headers["x-api-key"] !== "meinkey") {
-                    res.status(401).json({ error: "Unauthorized" });
-                    return false;
-                }*/
                 return true;
             }
         });

@@ -35,13 +35,10 @@ export default class TabNavigation {
             this.buttons.push(button);
         });
 
-        // open the first tab
-        if (!this.selected) {
-            this.selected = this.tabs[2].slug;
-        } else {
-            this.selected = this.selected;
-        }
-
+        // restore the tab from the URL hash (#slug or #slug/group), else default
+        const hashSlug = (window.location.hash || '').replace(/^#/, '').split('/')[0];
+        const valid = this.tabs.some(t => t.slug === hashSlug);
+        this.selected = valid ? hashSlug : (this.selected || this.tabs[2].slug);
     }
 
     on(event, callback) {

@@ -74,4 +74,4 @@ const json = extractCommentsAndKeys(yamlText);
 const outputFile = 'public/help/en.json';
 
 fs.writeFileSync('public/help/en.json', JSON.stringify(json, null, 2));
-console.log(outputFile, 'wurde erzeugt.');
+console.log(outputFile, 'generated.');
