@@ -32,7 +32,7 @@
     "express-session": "^1.18.2",
     "fs-extra": "^11.3.2",
     "session-file-store": "^1.5.0",
-    "yaml": "^2.8.2"
+    "yaml": "^2.9.0"
   },
   "devDependencies": {
     "eslint": "^9.18.0"
