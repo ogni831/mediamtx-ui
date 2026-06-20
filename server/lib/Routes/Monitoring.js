@@ -10,13 +10,11 @@ export default class MonitoringRoutes {
 
         // Routes
         this.router.get('/monitoring', (req, res) => {
-            console.log('>>> MONITORING REQUEST RECEIVED');
             return res.status(200).json({message: "MONITORING"});
         });
 
         // update server settings
         this.router.patch('/monitoring', (req, res) => {
-            console.log('>>> MONITORING PATCH REQUEST RECEIVED');
             return res.status(200).json({message: "MONITORING PATCH"});
         });
     }

@@ -10,13 +10,11 @@ export default class PathRoutes {
 
         // Routes
         this.router.get('/path', (req, res) => {
-            console.log('>>> PATH DEFAULTS REQUEST RECEIVED');
             return res.status(200).json({message: "PATH DEFAULTS"});
         });
 
         // update server settings
         this.router.patch('/path', (req, res) => {
-            console.log('>>> PATH DEFAULTS PATCH REQUEST RECEIVED');
             return res.status(200).json({message: "PATH DEFAULTS PATCH"});
         });
     }

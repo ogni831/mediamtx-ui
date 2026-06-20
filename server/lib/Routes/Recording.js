@@ -10,13 +10,11 @@ export default class RecordingRoutes {
 
         // Routes
         this.router.get('/recording', (req, res) => {
-            console.log('>>> RECORDING REQUEST RECEIVED');
             return res.status(200).json({message: "RECORDING"});
         });
 
         // update server settings
         this.router.patch('/recording', (req, res) => {
-            console.log('>>> RECORDING PATCH REQUEST RECEIVED');
             return res.status(200).json({message: "RECORDING PATCH"});
         });
     }

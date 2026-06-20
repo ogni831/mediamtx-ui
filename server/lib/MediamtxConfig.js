@@ -1,4 +1,4 @@
-import {parse, stringify} from 'yaml';
+import {stringify} from 'yaml';
 import {ensureFile, outputFile, move} from 'fs-extra';
 
 export class MediamtxConfig {

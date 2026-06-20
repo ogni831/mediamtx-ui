@@ -10,13 +10,11 @@ export default class ServerRoutes {
 
         // Routes
         this.router.get('/server', (req, res) => {
-            console.log('>>> SERVER REQUEST RECEIVED');
             return res.status(200).json({message: "SERVER"});
         });
 
         // update server settings
         this.router.patch('/server', (req, res) => {
-            console.log('>>> SERVER PATCH REQUEST RECEIVED');
             return res.status(200).json({message: "SERVER PATCH"});
         });
     }

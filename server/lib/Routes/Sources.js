@@ -10,13 +10,11 @@ export default class SourcesRoutes {
 
         // Routes
         this.router.get('/sources', (req, res) => {
-            console.log('>>> SOURCES REQUEST RECEIVED');
             return res.status(200).json({message: "SOURCES"});
         });
 
         // update server settings
         this.router.patch('/sources', (req, res) => {
-            console.log('>>> SOURCES PATCH REQUEST RECEIVED');
             return res.status(200).json({message: "SOURCES PATCH"});
         });
     }

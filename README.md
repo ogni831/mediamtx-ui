@@ -1,6 +1,6 @@
 # 🎥 mediamtx-ui
 
-> A dependency-light web UI to configure a [**MediaMTX**](https://github.com/bluenviron/mediamtx) **1.9.3** server at runtime — manage global settings, path defaults, streams (paths) and internal users, with live HLS preview.
+> A dependency-light web UI to configure a [**MediaMTX**](https://github.com/bluenviron/mediamtx) **1.9.3** server at runtime — global settings, path defaults, streams, internal users, live HLS/WebRTC preview, connection monitoring, recordings and playback.
 
 Node/Express backend that proxies the MediaMTX **v3 Control API** + a framework-free reactive vanilla-JS frontend. Designed for a **LAN / admin** scenario behind a reverse proxy — not to be exposed raw on the public internet.
 
@@ -31,17 +31,20 @@ Browser ──HTTPS──> reverse proxy ──> mediamtx-ui (Node/Express, :300
                                           ├── /auth/*      session login (argon2 + CSRF)
                                           └── /mediamtx/*  → proxies MediaMTX v3 Control API
                                                               (http://mediamtx:9997/v3)
+Browser ── media (HLS :8888 / WebRTC :8889 / Playback :9996) ──> MediaMTX 1.9.3
 MediaMTX 1.9.3 ── RTSP/RTMP/HLS/WebRTC/SRT ──> cameras / players
 ```
 
-The UI never talks to MediaMTX from the browser directly — every Control-API call is proxied through the authenticated backend.
+Every Control-API call is proxied through the authenticated backend. Media itself
+(HLS, the WebRTC reader, playback streams) is served by MediaMTX directly, like the
+HLS player already hits `:8888`.
 
 ---
 
 ## 📦 Requirements
 
 - Docker + Docker Compose
-- A running (or co-deployed) **MediaMTX 1.9.3** server with its **Control API enabled** (`api: yes`, `apiAddress: :9997`) and **metrics** (`metrics: yes`, `:9998`)
+- A running (or co-deployed) **MediaMTX 1.9.3** server with its **Control API enabled** (`api: yes`, `apiAddress: :9997`), **metrics** (`metrics: yes`, `:9998`) and, for the Playback tab, the **playback server** (`playback: yes`, `:9996`). The bundled `config/mediamtx.default.yml` pre-enables all three.
 - (Production) a reverse proxy terminating TLS in front of the UI
 
 ---
@@ -136,6 +139,7 @@ An example nginx vhost (TLS + security headers + optional second Basic-auth laye
 | `MEDIAMTX_METRICS_URL_BASE` | `http://mediamtx:9998/metrics` | MediaMTX metrics endpoint |
 | `MEDIAMTX_VERSION` | `1.9.3-ffmpeg-rpi` | MediaMTX image tag |
 | `RTSP_PORT` / `RTMP_PORT` / `HLS_PORT` / `WEBRTC_PORT` / `SRT_PORT` | 8554 / 1935 / 8888 / 8889 / 8890 | MediaMTX protocol ports |
+| `METRICS_PORT` / `PLAYBACK_PORT` | 9998 / 9996 | MediaMTX metrics & playback-server ports |
 
 ---
 
@@ -149,7 +153,9 @@ This fork hardens the original for real deployment:
 - **Refuses to start** in production on default `admin/admin` credentials.
 - **File-backed sessions** in production (survive restarts).
 - Output via `textContent` (no `innerHTML`) for user-influenced toast messages.
-- **Container**: runs as non-root, official pinned `node:22-bookworm-slim` base, `cap_drop: [ALL]`, `no-new-privileges`, loopback port binding, healthcheck, `.dockerignore` keeps secrets out of the image.
+- **Container**: runs as non-root, official pinned `node:26-bookworm-slim` base (multi-stage, no build toolchain in the final image), `cap_drop: [ALL]`, `no-new-privileges`, loopback port binding, healthcheck, `.dockerignore` keeps secrets out of the image.
+- **CSRF enforced on proxy/API mutations** (reads pass; all mutating calls send the token).
+- Session id **regenerated on login** (anti session-fixation); proxy requests have a fetch timeout and never echo internal errors.
 - MediaMTX metrics bound to loopback in the bundled compose.
 
 > Still a LAN/admin tool: always run it behind an authenticated TLS reverse proxy if reachable beyond `localhost`.
@@ -162,21 +168,24 @@ This fork hardens the original for real deployment:
 cd server
 NODE_ENV=development npm install --include=dev
 
-# build bundles (esbuild)
-node build_frontend.js
-node build_server.js
-
-# run locally (dev: ephemeral session secret if SESSION_SECRET unset)
-SESSION_SECRET=dev node index.js
+npm run build      # esbuild frontend + server bundles
+npm start          # run locally (ephemeral session secret if SESSION_SECRET unset)
+npm run gen:auth   # generate an argon2 hash for config/auth.json
+npm run docs       # regenerate inline help (public/help/en.json) from default.yaml
 ```
 
 For hot reload / livereload / USB-camera capture (Pi use case) use a `docker-compose.override.yml` — see the commented block at the bottom of [`docker-compose.yml`](docker-compose.yml). Never use `privileged: true`.
 
-Inline help (`server/public/help/en.json`) is regenerated from the annotated `default.yaml`:
+### Testing
 
 ```bash
-cd server && node extract_docs.js
+npm run lint   # ESLint (flat config)
+npm test       # node:test smoke suite (boots the server, checks auth/CSRF flow)
+npm run e2e    # Playwright e2e (login, navigation, theme + language) — needs:
+               #   npx playwright install --with-deps chromium
 ```
+
+CI (GitHub Actions) runs lint + build + smoke and a separate Playwright e2e job on every push/PR.
 
 ---
 

@@ -16,7 +16,6 @@ export default class Routes {
 
         // index
         this.router.get('/', (req, res) => {
-            console.log('>>> API REQUEST RECEIVED');
             const availableRoutes = [
                 ''
             ];
