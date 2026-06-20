@@ -15,6 +15,7 @@ services:
       - "${WEBRTC_PORT}:${WEBRTC_PORT}"             # WebRTC API
       - "${WEBRTC_UDP_PORT}:${WEBRTC_UDP_PORT}/udp" # WebRTC ICE/UDP
       - "${SRT_PORT}:${SRT_PORT}/udp"               # SRT
+      - "${PLAYBACK_PORT}:${PLAYBACK_PORT}"         # Playback server (recorded video)
       # Metrics + API stay on loopback — only the UI (same docker network) and
       # a local Prometheus need them; never expose on 0.0.0.0.
       - "127.0.0.1:${METRICS_PORT}:${METRICS_PORT}" # Metrics

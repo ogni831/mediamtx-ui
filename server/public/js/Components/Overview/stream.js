@@ -40,7 +40,7 @@ export default class StreamItem {
         const viewersEl = document.createElement("div");
         viewersEl.className = 'stream-viewers';
 
-        const labelViewersEl = label('Viewers');
+        const labelViewersEl = label(t('overview.viewers'));
         viewersEl.append(labelViewersEl);
 
         this.viewersNumberEl = document.createElement("div");
@@ -65,7 +65,7 @@ export default class StreamItem {
         const bytesReceivedEl = document.createElement("div");
         bytesReceivedEl.className = 'stream-bytes-received';
 
-        const labelBytesReceivedEl = label('MB Received');
+        const labelBytesReceivedEl = label(t('overview.received'));
         bytesReceivedEl.append(labelBytesReceivedEl);
 
         this.bytesReceivedNumberEl = document.createElement("div");
@@ -78,7 +78,7 @@ export default class StreamItem {
         const bytesSentEl = document.createElement("div");
         bytesSentEl.className = 'stream-bytes-sent';
 
-        const labelBytesSentEl = label('MB Sent');
+        const labelBytesSentEl = label(t('overview.sent'));
         bytesSentEl.append(labelBytesSentEl);
 
         this.bytesSentNumberEl = document.createElement("div");

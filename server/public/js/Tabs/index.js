@@ -6,6 +6,7 @@ import UsersTab from "./UsersTab.js";
 import SourcesTab from "./sources.js";
 import MonitoringTab from "./MonitoringTab.js";
 import RecordingsTab from "./RecordingsTab.js";
+import PlaybackTab from "./PlaybackTab.js";
 
 export {
     OverviewTab,
@@ -15,5 +16,6 @@ export {
     PathDefaultsTab,
     UsersTab,
     MonitoringTab,
-    RecordingsTab
+    RecordingsTab,
+    PlaybackTab
 }

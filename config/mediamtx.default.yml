@@ -16,6 +16,10 @@ apiAddress: :9997
 metrics: yes
 metricsAddress: :9998
 
+# Playback server (serves recorded video). Used by the UI Playback tab.
+playback: yes
+playbackAddress: :9996
+
 ###############################################
 # Protocol servers
 

@@ -64,7 +64,8 @@ export default class Page {
             path: Tabs.PathDefaultsTab,
             users: Tabs.UsersTab,
             monitoring: Tabs.MonitoringTab,
-            recording: Tabs.RecordingsTab
+            recording: Tabs.RecordingsTab,
+            playback: Tabs.PlaybackTab
         };
 
         await this.render();

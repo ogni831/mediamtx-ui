@@ -41,4 +41,9 @@ test("navigating to Monitoring and Recordings works", async ({page}) => {
     // Recordings tab
     await page.locator(".tab-navigation button", {hasText: "Recordings"}).click();
     await expect(page.locator(".tab.recordings")).toBeVisible();
+
+    // Playback tab
+    await page.locator(".tab-navigation button", {hasText: "Playback"}).click();
+    await expect(page.locator(".tab.playback")).toBeVisible();
+    await expect(page.locator(".playback-path")).toBeVisible();
 });

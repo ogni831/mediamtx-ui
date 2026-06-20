@@ -11,6 +11,16 @@ const DICT = {
         'nav.users': 'Users',
         'nav.monitoring': 'Monitoring',
         'nav.recording': 'Recordings',
+        'nav.playback': 'Playback',
+
+        'overview.viewers': 'Viewers',
+        'overview.received': 'MB Received',
+        'overview.sent': 'MB Sent',
+
+        'playback.selectPath': 'Select a path…',
+        'playback.noRanges': '— no recordings for this path —',
+        'playback.play': 'Play',
+        'playback.duration': 'duration',
 
         'login.title': 'Login',
         'login.username': 'Username',
@@ -62,6 +72,16 @@ const DICT = {
         'nav.users': 'Користувачі',
         'nav.monitoring': 'Моніторинг',
         'nav.recording': 'Записи',
+        'nav.playback': 'Відтворення',
+
+        'overview.viewers': 'Глядачі',
+        'overview.received': 'МБ отримано',
+        'overview.sent': 'МБ надіслано',
+
+        'playback.selectPath': 'Оберіть шлях…',
+        'playback.noRanges': '— немає записів для цього шляху —',
+        'playback.play': 'Відтворити',
+        'playback.duration': 'тривалість',
 
         'login.title': 'Вхід',
         'login.username': "Ім'я користувача",
