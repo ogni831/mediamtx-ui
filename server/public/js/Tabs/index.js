@@ -5,6 +5,7 @@ import PathDefaultsTab from "./PathTab.js";
 import UsersTab from "./UsersTab.js";
 import SourcesTab from "./sources.js";
 import MonitoringTab from "./MonitoringTab.js";
+import RecordingsTab from "./RecordingsTab.js";
 
 export {
     OverviewTab,
@@ -13,5 +14,6 @@ export {
     StreamsTab,
     PathDefaultsTab,
     UsersTab,
-    MonitoringTab
+    MonitoringTab,
+    RecordingsTab
 }
