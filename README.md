@@ -13,7 +13,8 @@ This is a fork of [seekwhencer/mediamtx-ui](https://github.com/seekwhencer/media
 - Edit **all global server settings** at runtime (RTSP/RTMP/HLS/WebRTC/SRT, API, metrics, auth, recording…)
 - Manage **path defaults** and individual **paths (streams)** — add / edit / delete
 - Manage **internal users** (`authInternalUsers`)
-- **Live HLS preview** of streams in the browser (hls.js)
+- **Live preview** of streams in the browser — HLS (hls.js) with a per-tile **WebRTC/WHEP toggle** (embeds MediaMTX's low-latency player)
+- **Monitoring** (live RTSP/RTMP/SRT/WebRTC connections & sessions) and **Recordings** browser (list + delete segments)
 - Forms auto-generated from the live config + inline help extracted from the annotated `mediamtx.yml`
 - Session-based authentication (argon2) with CSRF protection and login rate-limiting
 - Containerised, runs as a non-root user

@@ -98,3 +98,55 @@
         }
     }
 }
+
+/* Video tile: HLS <video> / WebRTC <iframe> with a mode toggle */
+.stream-video {
+    margin-top: 10px;
+}
+
+.cam-wrap {
+    position: relative;
+}
+
+.cam-media {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background-color: var(--light-bg);
+}
+
+.cam-media video.cam,
+.cam-media iframe.cam {
+    width: 100%;
+    height: 100%;
+    display: block;
+    border: 0;
+}
+
+.cam-mode {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    z-index: 2;
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 4px;
+    cursor: pointer;
+    opacity: .8;
+}
+
+.cam-mode:hover {
+    opacity: 1;
+}
+
+.stream-offline {
+    margin-top: 10px;
+    aspect-ratio: 16 / 9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--light-bg);
+    text-transform: uppercase;
+    font-size: 12px;
+    opacity: .55;
+}

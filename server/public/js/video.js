@@ -5,96 +5,140 @@ export default class Video {
         this.stream = stream;
         this.name = this.stream.data.confName;
         this.hls = null;
+        // 'hls' (hls.js <video>) | 'webrtc' (MediaMTX's built-in WHEP player via iframe)
+        this.mode = 'hls';
     }
 
     render() {
-        this.element = document.createElement('video');
-        this.element.className = 'cam';
-        this.element.id = this.name;
+        this.element = document.createElement('div');
+        this.element.className = 'cam-wrap';
 
-        this.element.autoplay = true;
-        this.element.muted = true;
-        this.element.setAttribute('muted', '');   // Firefox
-        this.element.playsInline = true;
-        this.element.setAttribute('playsinline', '');
+        // playback mode toggle (HLS ⇄ WebRTC/WHEP)
+        this.toggleBtn = document.createElement('button');
+        this.toggleBtn.type = 'button';
+        this.toggleBtn.className = 'cam-mode';
+        this.toggleBtn.onclick = (e) => {
+            e.stopPropagation();
+            this.setMode(this.mode === 'hls' ? 'webrtc' : 'hls');
+        };
+        this.element.append(this.toggleBtn);
 
-        this.element.addEventListener('click', () => this.toggle());
+        this.media = document.createElement('div');
+        this.media.className = 'cam-media';
+        this.element.append(this.media);
+
         return this.element;
     }
 
     init() {
-        if (this.hls) return;
+        this._mount();
+    }
+
+    setMode(mode) {
+        if (mode !== 'hls' && mode !== 'webrtc')
+            return;
+        this.mode = mode;
+        this._mount();
+    }
+
+    _mount() {
+        this._teardown();
+        this.mode === 'hls' ? this._mountHls() : this._mountWebrtc();
+        // button shows the OTHER mode (what clicking switches to)
+        this.toggleBtn.textContent = this.mode === 'hls' ? 'WebRTC' : 'HLS';
+    }
+
+    // --- HLS (hls.js) ---------------------------------------------------------
+    _mountHls() {
+        this.video = document.createElement('video');
+        this.video.className = 'cam';
+        this.video.id = this.name;
+        this.video.autoplay = true;
+        this.video.muted = true;
+        this.video.setAttribute('muted', '');   // Firefox
+        this.video.playsInline = true;
+        this.video.setAttribute('playsinline', '');
+        this.video.addEventListener('click', () => this.toggle());
+        this.media.append(this.video);
 
         this.hls = new Hls({
             enableWorker: true,
             lowLatencyMode: false,
             maxBufferLength: 10,
-            //liveSyncDuration: 3,
-            //liveMaxLatencyDuration: 6,
-            //maxLiveSyncPlaybackRate: 1.0
         });
-
-        this.hls.attachMedia(this.element);
+        this.hls.attachMedia(this.video);
 
         this.hls.on(Hls.Events.MEDIA_ATTACHED, () => {
-            this.hls.loadSource(this.url);
+            this.hls.loadSource(this.hlsUrl);
         });
-
         this.hls.on(Hls.Events.MANIFEST_PARSED, () => {
-            this.element.play().catch(() => {
-            });
+            this.video.play().catch(() => {});
         });
-
-        // Retry-Handler bei Netzwerk-Fehlern
         this.hls.on(Hls.Events.ERROR, (event, data) => {
             this.debug ? console.log(this.label, `${this.name} HLS ERROR:`, data) : null;
-
             if (data.fatal && data.type === Hls.ErrorTypes.NETWORK_ERROR) {
-                this.debug ? console.log(this.label, `${this.name} NETWORK_ERROR -> retrying in 1s`) : null;
                 setTimeout(() => {
-                    this.hls.loadSource(this.url);
-                    this.hls.startLoad();
+                    this.hls?.loadSource(this.hlsUrl);
+                    this.hls?.startLoad();
                 }, 1000);
             }
-
             if (data.fatal && data.type === Hls.ErrorTypes.MEDIA_ERROR) {
-                this.debug ? console.log(this.label, `${this.name} MEDIA_ERROR -> recover media error`) : null;
-                this.hls.recoverMediaError();
+                this.hls?.recoverMediaError();
             }
         });
     }
 
-
-    play() {
-        this.element.play();
+    // --- WebRTC (MediaMTX built-in WHEP reader, embedded) ---------------------
+    _mountWebrtc() {
+        this.iframe = document.createElement('iframe');
+        this.iframe.className = 'cam';
+        this.iframe.setAttribute('allow', 'autoplay; fullscreen');
+        this.iframe.setAttribute('allowfullscreen', '');
+        this.iframe.src = this.webrtcUrl;
+        this.media.append(this.iframe);
     }
 
-    pause() {
-        this.element.pause();
-    }
-
-    toggle() {
-        this.element.paused ? this.element.play() : this.element.pause();
-    }
-
-    destroy() {
-        this.pause();
-
+    _teardown() {
         if (this.hls) {
             this.hls.destroy();
             this.hls = null;
         }
-
-        this.element.remove();
+        this.video?.pause?.();
+        this.video?.remove();
+        this.video = null;
+        this.iframe?.remove();
+        this.iframe = null;
+        this.media?.replaceChildren?.();
     }
 
-    get url() {
+    play() {
+        this.video?.play();
+    }
+
+    pause() {
+        this.video?.pause();
+    }
+
+    toggle() {
+        if (!this.video) return;
+        this.video.paused ? this.video.play() : this.video.pause();
+    }
+
+    destroy() {
+        this._teardown();
+        this.element?.remove();
+    }
+
+    get hlsUrl() {
         const url = new URL(window.location.href);
-        //@todo check if the hlsAddress starts with :8888 for example
-        return `${url.protocol}//${url.hostname}${this.stream.tab.settings.hls.hlsAddress}/${this.name}/index.m3u8`;
+        const addr = this.stream.tab.settings?.hls?.hlsAddress ?? ':8888';
+        return `${url.protocol}//${url.hostname}${addr}/${this.name}/index.m3u8`;
     }
 
-    set url(val) {
-        ///
+    // MediaMTX serves its own WebRTC/WHEP reader page at http://host:<webrtc>/<path>/
+    get webrtcUrl() {
+        const url = new URL(window.location.href);
+        const addr = this.stream.tab.settings?.webrtc?.webrtcAddress ?? ':8889';
+        return `${url.protocol}//${url.hostname}${addr}/${this.name}/`;
     }
 }
