@@ -100,6 +100,11 @@ export default class Server extends Events {
             next();
         });
 
+        // CSRF-protect state-changing requests to the proxy and API routers
+        // (csrfSynchronisedProtection ignores GET/HEAD/OPTIONS, so reads pass
+        // through; all mutating frontend calls send the CSRF-Token header).
+        this.engine.use(this.csrfProtection);
+
         // Mediamtx API Proxy
         this.engine.use('/mediamtx', this.mediamtx.proxy.router);
         this.engine.use('/mediamtx/metrics', this.mediamtx.metrics.router);

@@ -101,3 +101,40 @@ test("wrong password is rejected (401)", async () => {
     });
     assert.equal(r.status, 401);
 });
+
+test("proxy mutations require a CSRF token, reads do not", async () => {
+    // log in
+    const c1 = await fetch(`${BASE}/auth/csrf`);
+    const loginRes = await fetch(`${BASE}/auth/login`, {
+        method: "POST",
+        headers: {"Content-Type": "application/json", "CSRF-Token": (await c1.json()).csrfToken, "Cookie": firstCookie(c1)},
+        body: JSON.stringify({username: "admin", password: "admin"}),
+    });
+    const session = firstCookie(loginRes);
+
+    // fresh CSRF token bound to the post-login (regenerated) session
+    const c2 = await fetch(`${BASE}/auth/csrf`, {headers: {"Cookie": session}});
+    const token = (await c2.json()).csrfToken;
+    const cookie = firstCookie(c2) ?? session;
+
+    // GET through the proxy: no token needed → reaches upstream (502, mtx down) not 403
+    const read = await fetch(`${BASE}/mediamtx/config/global/get`, {headers: {"Cookie": cookie}});
+    assert.notEqual(read.status, 403);
+
+    // PATCH without token → 403
+    const noToken = await fetch(`${BASE}/mediamtx/config/global/patch`, {
+        method: "PATCH",
+        headers: {"Content-Type": "application/json", "Cookie": cookie},
+        body: "{}",
+    });
+    assert.equal(noToken.status, 403);
+
+    // PATCH with token → passes CSRF (502 since no upstream, but not 403/401)
+    const withToken = await fetch(`${BASE}/mediamtx/config/global/patch`, {
+        method: "PATCH",
+        headers: {"Content-Type": "application/json", "CSRF-Token": token, "Cookie": cookie},
+        body: "{}",
+    });
+    assert.notEqual(withToken.status, 403);
+    assert.notEqual(withToken.status, 401);
+});
