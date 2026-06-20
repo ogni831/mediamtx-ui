@@ -6,8 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [1.0.0] — 2026-06-20
 
-First stable release. Fork of [seekwhencer/mediamtx-ui](https://github.com/seekwhencer/mediamtx-ui)
-(which targets 1.16.0), **retargeted to MediaMTX 1.9.3**, with the gitignored
+First stable release. **1.9.3 adaptation by deadSam** of
+[seekwhencer/mediamtx-ui](https://github.com/seekwhencer/mediamtx-ui)
+(which targets 1.16.0): retargeted to MediaMTX 1.9.3, with the gitignored
 reactive settings layer reconstructed, runtime bugs fixed, and the project
 security-hardened and modernised.
 

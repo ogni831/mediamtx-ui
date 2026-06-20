@@ -209,4 +209,8 @@ CI (GitHub Actions) runs lint + build + smoke and a separate Playwright e2e job 
 
 ## 📜 Credits & license
 
-Fork of **[seekwhencer/mediamtx-ui](https://github.com/seekwhencer/mediamtx-ui)** by Matthias Kallenbach. Retargeted to MediaMTX 1.9.3, reconstructed reactive settings layer, and security-hardened. Licensed **ISC** (as upstream).
+Original project **[seekwhencer/mediamtx-ui](https://github.com/seekwhencer/mediamtx-ui)** by Matthias Kallenbach.
+
+**1.9.3 adaptation by deadSam** — retargeted to MediaMTX 1.9.3, reconstructed the reactive settings layer, added the Monitoring/Recordings/Playback tabs, i18n, theming, tests, and security hardening.
+
+Licensed **ISC** (as upstream).

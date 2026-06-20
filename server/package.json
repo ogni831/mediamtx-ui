@@ -5,6 +5,9 @@
   "main": "index.js",
   "type": "module",
   "author": "Matthias Kallenbach",
+  "contributors": [
+    "deadSam (1.9.3 adaptation)"
+  ],
   "license": "ISC",
   "repository": {
     "type": "git",
