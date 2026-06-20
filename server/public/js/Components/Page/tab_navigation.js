@@ -13,7 +13,7 @@ export default class TabNavigation {
             {name: "Server", slug: "server", icon: 'settings'},
             //{name: "Playback", slug: "playback", icon: 'play'},
             //{name: "Recording", slug: "recording", icon: 'circle'},
-            //{name: "Monitoring", slug: "monitoring", icon: 'chart-no-axes-combined'},
+            {name: "Monitoring", slug: "monitoring", icon: 'chart-no-axes-combined'},
             {name: "Path Defaults", slug: "path", icon: 'layers-2'},
             {name: "Users", slug: "users", icon: 'user'}
         ];
