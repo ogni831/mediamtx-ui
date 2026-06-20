@@ -31,4 +31,25 @@
             margin: auto;
         }
     }
+
+    .controls {
+        position: absolute;
+        top: 50%;
+        right: 16px;
+        transform: translateY(-50%);
+        display: flex;
+        gap: 8px;
+        align-items: center;
+
+        select,
+        button {
+            margin: 0;
+            font-size: 12px;
+            padding: 6px 10px;
+            text-transform: none;
+            text-shadow: none;
+            font-weight: 400;
+            background-color: var(--light-med-bg);
+        }
+    }
 }

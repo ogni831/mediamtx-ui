@@ -1,3 +1,4 @@
+import {t} from "../i18n.js";
 import Tab from './Tab.js';
 import StreamItem from '../Components/Streams/StreamItem.js';
 
@@ -48,7 +49,7 @@ export default class StreamsTab extends Tab {
     renderAddButton() {
         const btn = document.createElement('button');
         btn.className = 'add';
-        btn.innerHTML = `${this.page.icons.svg['list-plus']} Add path`;
+        btn.innerHTML = `${this.page.icons.svg['list-plus']} ${t('btn.addPath')}`;
         btn.onclick = () => this.addPath();
         this.element.append(btn);
     }

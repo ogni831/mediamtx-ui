@@ -1,3 +1,4 @@
+import {t} from "../../i18n.js";
 import DataProxy from "../../data_proxy.js";
 import Video from "../../video.js";
 
@@ -113,7 +114,7 @@ export default class StreamItem {
             if (!this.placeholder) {
                 this.placeholder = document.createElement("div");
                 this.placeholder.className = 'stream-offline';
-                this.placeholder.textContent = 'offline';
+                this.placeholder.textContent = t('common.offline');
                 this.videoWrap.appendChild(this.placeholder);
             }
         }

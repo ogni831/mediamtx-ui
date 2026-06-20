@@ -1,3 +1,4 @@
+import {t} from "../i18n.js";
 import Tab from "./Tab.js";
 import UserItem from "../Components/Users/UserItem.js";
 
@@ -56,7 +57,7 @@ export default class UsersTab extends Tab {
     renderAddButton() {
         const btn = document.createElement('button');
         btn.className = 'add';
-        btn.innerHTML = `${this.page.icons.svg['list-plus']} Add user`;
+        btn.innerHTML = `${this.page.icons.svg['list-plus']} ${t('btn.addUser')}`;
         btn.onclick = () => this.addUser();
         this.element.append(btn);
     }

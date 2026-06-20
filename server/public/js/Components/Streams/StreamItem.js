@@ -1,3 +1,4 @@
+import {t} from "../../i18n.js";
 import FormItem from "../FormItem.js";
 import GroupNavigation from "../Page/group_navigation.js";
 import PathGroups from "../Page/path_groups.js";
@@ -29,14 +30,14 @@ export default class StreamItem {
         // Collapse-Button
         this.editButton = document.createElement("button");
         this.editButton.className = 'edit';
-        this.editButton.innerHTML = `${this.page.icons.svg['settings']} Edit path`;
+        this.editButton.innerHTML = `${this.page.icons.svg['settings']} ${t('btn.editPath')}`;
         this.editButton.onclick = () => this.collapse();
         this.element.append(this.editButton);
 
         // Delete-Button
         const deleteButton = document.createElement("button");
         deleteButton.className = 'delete';
-        deleteButton.innerHTML = `${this.page.icons.svg['list-minus']} Delete path`;
+        deleteButton.innerHTML = `${this.page.icons.svg['list-minus']} ${t('btn.deletePath')}`;
         deleteButton.onclick = () => this.delete();
         this.element.append(deleteButton);
 

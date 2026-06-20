@@ -1,3 +1,5 @@
+import {t} from "../../i18n.js";
+
 export default class LoginComponent {
     constructor(page) {
         this.label = this.constructor.name.toUpperCase();
@@ -19,11 +21,11 @@ export default class LoginComponent {
         inputBlock.className = 'input-block';
 
         const title = document.createElement('h2');
-        title.textContent = 'Login';
+        title.textContent = t('login.title');
         inputBlock.appendChild(title);
 
         const usernameLabel = document.createElement('label');
-        usernameLabel.textContent = 'Username';
+        usernameLabel.textContent = t('login.username');
         inputBlock.appendChild(usernameLabel);
 
         this.usernameInput = document.createElement('input');
@@ -31,7 +33,7 @@ export default class LoginComponent {
         inputBlock.appendChild(this.usernameInput);
 
         const passwordLabel = document.createElement('label');
-        passwordLabel.textContent = 'Password';
+        passwordLabel.textContent = t('login.password');
         inputBlock.appendChild(passwordLabel);
 
         this.passwordInput = document.createElement('input');
@@ -43,7 +45,7 @@ export default class LoginComponent {
         inputBlock.appendChild(this.messageElement);
 
         this.loginButton = document.createElement('button');
-        this.loginButton.textContent = 'Login';
+        this.loginButton.textContent = t('login.submit');
         this.loginButton.addEventListener('click', async () => this.login());
         inputBlock.appendChild(this.loginButton);
 
@@ -52,10 +54,10 @@ export default class LoginComponent {
 
         const messageBlock = document.createElement('div');
         messageBlock.className = 'message-block';
-        messageBlock.innerHTML = 'Welcome<br />';
+        messageBlock.innerHTML = t('login.welcome') + '<br />';
         messageBlock.innerHTML += this.page.icons.svg['message-circle-question-mark'];
         messageBlock.innerHTML += '<br />';
-        messageBlock.innerHTML += 'This application requires authentication.<br />Please enter your credentials to continue.';
+        messageBlock.innerHTML += t('login.requires') + '<br />' + t('login.enter');
 
         loginBlock.appendChild(messageBlock);
 
@@ -85,7 +87,7 @@ export default class LoginComponent {
             this.element.remove();
             this.page.create();
         } else {
-            this.messageElement.innerHTML = 'Login failed.<br /> Please check your credentials.';
+            this.messageElement.textContent = t('login.failed');
             this.loginButton.disabled = false;
         }
     }

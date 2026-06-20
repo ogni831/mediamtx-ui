@@ -10,7 +10,10 @@ mediamtx.yml
 /config/backup/**/*
 /config/auth.json
 /config/sessions/**/*
+/config/auth.e2e.json
 server/build/**/*
+server/test-results/**/*
+server/playwright-report/**/*
 media/**/*
 
 !data/default.json

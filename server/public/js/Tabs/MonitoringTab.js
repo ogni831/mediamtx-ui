@@ -1,12 +1,13 @@
 import Tab from "./Tab.js";
+import {t} from "../i18n.js";
 
 // Live connections / sessions exposed by the MediaMTX v3 API (read-only).
 const SECTIONS = [
-    {name: 'RTSP connections', url: '/mediamtx/rtspconns/list'},
-    {name: 'RTSP sessions', url: '/mediamtx/rtspsessions/list'},
-    {name: 'RTMP connections', url: '/mediamtx/rtmpconns/list'},
-    {name: 'SRT connections', url: '/mediamtx/srtconns/list'},
-    {name: 'WebRTC sessions', url: '/mediamtx/webrtcsessions/list'},
+    {key: 'mon.rtspConns', url: '/mediamtx/rtspconns/list'},
+    {key: 'mon.rtspSessions', url: '/mediamtx/rtspsessions/list'},
+    {key: 'mon.rtmpConns', url: '/mediamtx/rtmpconns/list'},
+    {key: 'mon.srtConns', url: '/mediamtx/srtconns/list'},
+    {key: 'mon.webrtcSessions', url: '/mediamtx/webrtcsessions/list'},
 ];
 
 const COLUMNS = ['id', 'remoteAddr', 'state', 'path', 'bytesReceived', 'bytesSent'];
@@ -30,8 +31,9 @@ export default class MonitoringTab extends Tab {
             const box = document.createElement('div');
             box.className = 'monitoring-section';
 
+            const name = t(section.key);
             const heading = document.createElement('h2');
-            heading.textContent = section.name;
+            heading.textContent = name;
             box.append(heading);
 
             const body = document.createElement('div');
@@ -39,7 +41,7 @@ export default class MonitoringTab extends Tab {
             box.append(body);
 
             this.element.append(box);
-            this.sections[section.url] = {heading, body, name: section.name};
+            this.sections[section.url] = {heading, body, name};
         });
 
         await this.poll();
@@ -74,7 +76,7 @@ export default class MonitoringTab extends Tab {
         if (!items.length) {
             const empty = document.createElement('div');
             empty.className = 'monitoring-empty';
-            empty.textContent = '— none —';
+            empty.textContent = t('common.none');
             return empty;
         }
 

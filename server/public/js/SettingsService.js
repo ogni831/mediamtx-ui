@@ -1,6 +1,7 @@
 import PathItemProxy from "./Settings/PathItemProxy.js";
 import UserItemProxy from "./Settings/UserItemProxy.js";
 import {UsersSettings} from "./Settings/index.js";
+import {t} from "./i18n.js";
 
 export default class SettingsService {
     constructor(settings) {
@@ -249,7 +250,7 @@ export default class SettingsService {
             console.error('SAVE GLOBAL FAILED');
             this.page.toast.error(data.error);
         } else {
-            this.page.toast.success('Saved global settings');
+            this.page.toast.success(t('toast.savedGlobal'));
         }
 
         this.debounce.saveGlobal = 0;
@@ -284,7 +285,7 @@ export default class SettingsService {
             console.error('SAVE PATH DEFAULTS FAILED', data.error);
             this.page.toast.error(data.error);
         } else {
-            this.page.toast.success('Saved paths settings');
+            this.page.toast.success(t('toast.savedPaths'));
         }
 
         this.debounce.savePathDefaults = 0;
@@ -325,7 +326,7 @@ export default class SettingsService {
         const user = this.store.users[index];
         this.store.users.splice(index, 1);
 
-        this.page.toast.success(`User "${user.user}" deleted`);
+        this.page.toast.success(t('toast.userDeleted', {name: user.user}));
         return await this.saveGlobal();
     }
 
@@ -354,7 +355,7 @@ export default class SettingsService {
         );
 
         if (res.ok) {
-            this.page.toast.success('Path added');
+            this.page.toast.success(t('toast.pathAdded'));
             await this.loadPathsList();
         } else {
             const data = await res.json();
@@ -389,7 +390,7 @@ export default class SettingsService {
             );
 
             if (res.ok) {
-                this.page.toast.success(`Path "${name}" updated`);
+                this.page.toast.success(t('toast.pathUpdated', {name}));
                 await this.loadPathsList();
             } else {
                 const data = await res.json();
@@ -426,7 +427,7 @@ export default class SettingsService {
         );
 
         if (res.ok) {
-            this.page.toast.success('Path replaced');
+            this.page.toast.success(t('toast.pathReplaced'));
             await this.loadPathsList();
         } else {
             const data = await res.json();
@@ -454,7 +455,7 @@ export default class SettingsService {
         );
 
         if (res.ok) {
-            this.page.toast.success('Path deleted');
+            this.page.toast.success(t('toast.pathDeleted'));
             await this.loadPathsList();
         } else {
             const data = await res.json();

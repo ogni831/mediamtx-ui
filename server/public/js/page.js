@@ -1,3 +1,4 @@
+import "./theme.js"; // applies saved/OS theme on load (before first render)
 import Toast from "./Toast.js";
 import EventEmitter from "./event_emitter.js";
 import FetchManager from "./fetch_manager.js";

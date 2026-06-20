@@ -1,3 +1,4 @@
+import {t} from "../../i18n.js";
 import FormItem from "../FormItem.js";
 
 export default class UserRow {
@@ -47,7 +48,7 @@ export default class UserRow {
         // delete button
         const deleteButton = document.createElement("button");
         deleteButton.className = 'delete';
-        deleteButton.innerHTML = `${this.page.icons.svg['user-minus']} Delete user`;
+        deleteButton.innerHTML = `${this.page.icons.svg['user-minus']} ${t('btn.deleteUser')}`;
         deleteButton.onclick = () => this.delete();
         this.element.append(deleteButton);
     }

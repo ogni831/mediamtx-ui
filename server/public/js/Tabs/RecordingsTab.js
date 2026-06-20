@@ -1,3 +1,4 @@
+import {t} from "../i18n.js";
 import Tab from "./Tab.js";
 
 // Recordings browser backed by the MediaMTX v3 recordings API.
@@ -19,7 +20,7 @@ export default class RecordingsTab extends Tab {
         bar.className = 'recordings-bar';
         const refresh = document.createElement('button');
         refresh.className = 'refresh';
-        refresh.innerHTML = `${this.page.icons.svg['package-check'] ?? ''} Refresh`;
+        refresh.innerHTML = `${this.page.icons.svg['package-check'] ?? ''} ${t('btn.refresh')}`;
         refresh.onclick = () => this.load();
         bar.append(refresh);
         this.element.append(bar);
@@ -53,7 +54,7 @@ export default class RecordingsTab extends Tab {
         if (!items.length) {
             const empty = document.createElement('div');
             empty.className = 'monitoring-empty';
-            empty.textContent = '— no recordings —';
+            empty.textContent = t('recordings.empty');
             this.listEl.append(empty);
             return;
         }
@@ -84,7 +85,7 @@ export default class RecordingsTab extends Tab {
 
             const del = document.createElement('button');
             del.className = 'delete';
-            del.textContent = 'Delete';
+            del.textContent = t('btn.delete');
             del.onclick = () => this.deleteSegment(rec.name, seg.start);
             row.append(del);
 
@@ -98,7 +99,7 @@ export default class RecordingsTab extends Tab {
     async deleteSegment(name, start) {
         if (!start)
             return;
-        if (!window.confirm(`Delete recording segment?\n\n${name}\n${start}`))
+        if (!window.confirm(`${t('recordings.confirm')}\n\n${name}\n${start}`))
             return;
 
         const url = `/mediamtx/recordings/deletesegment`

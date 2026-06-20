@@ -3,15 +3,15 @@
 import {test, before, after} from "node:test";
 import assert from "node:assert/strict";
 import {spawn} from "node:child_process";
-import {writeFileSync, readFileSync, mkdirSync, rmSync, existsSync} from "node:fs";
+import {writeFileSync, mkdirSync, rmSync} from "node:fs";
 import argon2 from "argon2";
 
 const PORT = 3099;
 const BASE = `http://127.0.0.1:${PORT}`;
-const AUTH_PATH = "../config/auth.json";
+// throwaway auth file (AUTH_CONFIG_PATH) so the real config/auth.json is untouched
+const AUTH_PATH = "../config/auth.e2e.json";
 
 let proc;
-let authBackup = null;
 
 const firstCookie = (res) => {
     const cookies = res.headers.getSetCookie?.() ?? [];
@@ -19,14 +19,18 @@ const firstCookie = (res) => {
 };
 
 before(async () => {
-    // config/ is gitignored; provision a known admin/admin auth.json
     mkdirSync("../config", {recursive: true});
-    if (existsSync(AUTH_PATH)) authBackup = readFileSync(AUTH_PATH);
     const hash = await argon2.hash("admin");
     writeFileSync(AUTH_PATH, JSON.stringify({username: hash, password: hash}, null, 2));
 
     proc = spawn("node", ["index.js"], {
-        env: {...process.env, NODE_ENV: "development", SERVER_PORT: String(PORT), SESSION_SECRET: "ci-test-secret"},
+        env: {
+            ...process.env,
+            NODE_ENV: "development",
+            SERVER_PORT: String(PORT),
+            SESSION_SECRET: "ci-test-secret",
+            AUTH_CONFIG_PATH: AUTH_PATH,
+        },
         stdio: ["ignore", "pipe", "pipe"],
     });
 
@@ -44,8 +48,7 @@ before(async () => {
 
 after(() => {
     proc?.kill();
-    if (authBackup) writeFileSync(AUTH_PATH, authBackup);
-    else rmSync(AUTH_PATH, {force: true});
+    rmSync(AUTH_PATH, {force: true});
 });
 
 test("unauthenticated API returns 401", async () => {

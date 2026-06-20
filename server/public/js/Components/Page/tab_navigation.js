@@ -1,4 +1,6 @@
 import EventEmitter from "../../event_emitter.js";
+import {t} from "../../i18n.js";
+import Controls from "./controls.js";
 
 export default class TabNavigation {
     constructor(page) {
@@ -28,16 +30,21 @@ export default class TabNavigation {
         this.tabs.forEach(tab => {
             const button = document.createElement("button");
             button.setAttribute("type", "button");
-            button.innerHTML = tab.icon ? `${this.icons.svg[tab.icon]}${tab.name}` : tab.name;
+            const label = t(`nav.${tab.slug}`);
+            button.innerHTML = tab.icon ? `${this.icons.svg[tab.icon]}${label}` : label;
             button.slug = tab.slug; // custom prop
             button.onclick = () => this.selected = tab.slug;
             this.element.append(button);
             this.buttons.push(button);
         });
 
+        // language + theme controls
+        this.controls = new Controls();
+        this.controls.render(this.element);
+
         // restore the tab from the URL hash (#slug or #slug/group), else default
         const hashSlug = (window.location.hash || '').replace(/^#/, '').split('/')[0];
-        const valid = this.tabs.some(t => t.slug === hashSlug);
+        const valid = this.tabs.some(tab => tab.slug === hashSlug);
         this.selected = valid ? hashSlug : (this.selected || this.tabs[2].slug);
     }
 

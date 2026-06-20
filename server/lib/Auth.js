@@ -12,7 +12,7 @@ export default class Auth {
     constructor(app) {
         this.label = this.constructor.name.toUpperCase();
         this.app = app;
-        this.configFilePath = '../config/auth.json';
+        this.configFilePath = process.env.AUTH_CONFIG_PATH || '../config/auth.json';
         this.auth = readJsonSync(this.configFilePath);
     }
 
