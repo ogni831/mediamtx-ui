@@ -30,7 +30,6 @@ export default class Help {
         this.removeTooltip();
 
         this.item = button.closest('.form-item');
-        const label = button.closest('label');
 
         this.tooltip = document.createElement("div");
         this.tooltip.className = 'tooltip';

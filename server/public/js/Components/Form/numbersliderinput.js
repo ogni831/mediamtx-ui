@@ -1,6 +1,5 @@
 import Component from "./Component.js";
 import Slider from "./slider.js";
-import TextInput from "./textinput.js";
 
 export default class NumberSliderInput extends Component {
     constructor(options) {
@@ -113,10 +112,3 @@ export default class NumberSliderInput extends Component {
         this.debounceTimer = setTimeout(() => super.value = value, 100);
     }
 }
-const toExp = v => {
-    if (v <= 0 || (v & (v - 1)) !== 0) {
-        return 0;
-        //throw new Error("value ist keine Zweierpotenz");
-    }
-    return Math.log2(v);
-};

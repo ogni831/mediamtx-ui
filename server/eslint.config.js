@@ -11,7 +11,9 @@ export default [
             sourceType: "module",
         },
         rules: {
-            "no-unused-vars": "warn",
+            // unused function arguments and caught errors are idiomatic
+            // (event handlers, middleware signatures); flag only unused vars/imports.
+            "no-unused-vars": ["warn", {args: "none", caughtErrors: "none", varsIgnorePattern: "^_"}],
             "no-empty": "warn",
             "no-undef": "off",
             "no-constant-condition": ["warn", {checkLoops: false}],

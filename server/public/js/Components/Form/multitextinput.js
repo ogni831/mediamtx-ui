@@ -110,9 +110,3 @@ export default class MultiTextInput extends Component {
         this.parent.element.append(this.inputs);
     }
 }
-
-const splitCamelCase = (str) => {
-    return str
-        .replace(/([a-z])([A-Z])/g, '$1 $2')
-        .replace(/([A-Z]+)([A-Z][a-z])/g, '$1 $2');
-}

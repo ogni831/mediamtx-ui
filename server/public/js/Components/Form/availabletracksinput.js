@@ -1,6 +1,5 @@
 import Component from "./Component.js";
 import Button from "./button.js";
-import CheckboxInput from "./checkboxinput.js";
 
 export default class AvailableTracksInput extends Component {
     constructor(options) {
@@ -217,10 +216,4 @@ export default class AvailableTracksInput extends Component {
         delete this.rows[index];
         this.concatValue();
     }
-}
-
-const splitCamelCase = (str) => {
-    return str
-        .replace(/([a-z])([A-Z])/g, '$1 $2')
-        .replace(/([A-Z]+)([A-Z][a-z])/g, '$1 $2');
 }

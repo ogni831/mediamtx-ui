@@ -5,7 +5,6 @@ import {csrfSync} from "csrf-sync";
 import FileStoreFactory from "session-file-store";
 
 import Events from './EventEmitter.js';
-import Routes from "./Routes/index.js";
 import AuthRoutes from "./Routes/Auth.js";
 
 export default class Server extends Events {
@@ -108,10 +107,6 @@ export default class Server extends Events {
         // Mediamtx API Proxy
         this.engine.use('/mediamtx', this.mediamtx.proxy.router);
         this.engine.use('/mediamtx/metrics', this.mediamtx.metrics.router);
-
-        // API routes
-        this.routes = new Routes(this);
-        this.engine.use('/api', this.routes.router);
 
         // csrf error handling
         this.engine.use((err, req, res, next) => {
