@@ -112,7 +112,11 @@
     position: relative;
     width: 100%;
     aspect-ratio: 16 / 9;
-    background-color: var(--light-bg);
+    /* black letterbox for actual video, theme-aware frame around it */
+    background-color: #000;
+    border: 1px solid var(--light-border-color);
+    border-radius: 6px;
+    overflow: hidden;
 }
 
 .cam-media video.cam,
@@ -121,6 +125,17 @@
     height: 100%;
     display: block;
     border: 0;
+    background: #000; /* avoid a white flash before the embedded page paints */
+    /* The WebRTC iframe loads MediaMTX's own (cross-origin) page, so we can't
+       restyle its internals — but color-scheme makes its UA-default background,
+       scrollbars and controls follow the app theme, and it flips live with the
+       data-theme toggle. */
+    color-scheme: light;
+}
+
+:root[data-theme="dark"] .cam-media video.cam,
+:root[data-theme="dark"] .cam-media iframe.cam {
+    color-scheme: dark;
 }
 
 .cam-mode {
@@ -133,6 +148,10 @@
     border-radius: 4px;
     cursor: pointer;
     opacity: .8;
+    /* theme-aware control chip */
+    background-color: var(--light-med-bg);
+    color: var(--text-color);
+    border: 1px solid var(--light-border-color);
 }
 
 .cam-mode:hover {
@@ -146,6 +165,9 @@
     align-items: center;
     justify-content: center;
     background-color: var(--light-bg);
+    color: var(--text-light-color);
+    border: 1px solid var(--light-border-color);
+    border-radius: 6px;
     text-transform: uppercase;
     font-size: 12px;
     opacity: .55;
