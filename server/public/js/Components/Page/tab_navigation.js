@@ -26,6 +26,12 @@ export default class TabNavigation {
         this.element.className = "tab-navigation";
         this.page.element.append(this.element);
 
+        // centered tab buttons live in their own flex container so the
+        // controls (pinned right) never overlap the last tab
+        this.tabsEl = document.createElement("div");
+        this.tabsEl.className = "nav-tabs";
+        this.element.append(this.tabsEl);
+
         this.buttons = [];
         this.tabs.forEach(tab => {
             const button = document.createElement("button");
@@ -34,7 +40,7 @@ export default class TabNavigation {
             button.innerHTML = tab.icon ? `${this.icons.svg[tab.icon]}${label}` : label;
             button.slug = tab.slug; // custom prop
             button.onclick = () => this.selected = tab.slug;
-            this.element.append(button);
+            this.tabsEl.append(button);
             this.buttons.push(button);
         });
 

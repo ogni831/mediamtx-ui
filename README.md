@@ -22,6 +22,24 @@ This is a fork of [seekwhencer/mediamtx-ui](https://github.com/seekwhencer/media
 
 ---
 
+## 📸 Screenshots
+
+| Overview | Server settings |
+|---|---|
+| ![Overview](screenshots/02-overview.png) | ![Server](screenshots/03-server.png) |
+
+| Recordings | Playback |
+|---|---|
+| ![Recordings](screenshots/08-recordings.png) | ![Playback](screenshots/09-playback.png) |
+
+| Monitoring | Dark theme (Overview) |
+|---|---|
+| ![Monitoring](screenshots/07-monitoring.png) | ![Dark](screenshots/10-overview-dark.png) |
+
+More in [`screenshots/`](screenshots/).
+
+---
+
 ## 🧭 Architecture
 
 ```

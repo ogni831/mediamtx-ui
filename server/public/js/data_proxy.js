@@ -77,11 +77,16 @@ export default class DataProxy {
         if (type === 'string')
             return value;
 
+        // Coerce only when the incoming value is a string (e.g. from a form
+        // input). When it is already the right type — e.g. config re-loaded
+        // from the API — pass it through unchanged. (Previously `value === 'true'`
+        // turned an already-boolean `true` into `false`, flipping every boolean
+        // on re-load and triggering spurious saves.)
         if (type === 'number')
-            return parseInt(value);
+            return typeof value === 'number' ? value : parseInt(value);
 
         if (type === 'boolean')
-            return value === 'true';
+            return typeof value === 'boolean' ? value : value === 'true';
 
         if (type === 'function')
             return value;

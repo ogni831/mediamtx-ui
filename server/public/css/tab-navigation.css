@@ -2,41 +2,53 @@
     position: fixed;
     top: 0;
     width: 100%;
-    text-align: center;
     background-color: var(--page-bg);
     z-index: 1000;
-    padding: 10px 0 10px 0;
+    padding: 10px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 
-    button {
-        margin-right: 10px;
-        background-color: var(--light-med-bg);
-        font-size: 16px;
-        padding: 10px 30px;
-        text-transform: uppercase;
-        font-weight: 500;
-        text-align: center;
-        text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3);
+    /* tabs centered in their own flex row; controls pinned right with reserved
+       space so they never overlap the last tab */
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-sizing: border-box;
 
-        &:hover {
-            background-color: var(--color-secondary);
-        }
+    .nav-tabs {
+        flex: 1 1 auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
 
-        &.active {
-            background-color: var(--color-primary);
-        }
+        button {
+            margin: 0;
+            background-color: var(--light-med-bg);
+            font-size: 16px;
+            padding: 10px 30px;
+            text-transform: uppercase;
+            font-weight: 500;
+            text-align: center;
+            text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3);
 
-        svg {
-            display: block;
-            margin: auto;
+            &:hover {
+                background-color: var(--color-secondary);
+            }
+
+            &.active {
+                background-color: var(--color-primary);
+            }
+
+            svg {
+                display: block;
+                margin: auto;
+            }
         }
     }
 
     .controls {
-        position: absolute;
-        top: 50%;
-        right: 16px;
-        transform: translateY(-50%);
+        flex: 0 0 auto;
         display: flex;
         gap: 8px;
         align-items: center;
