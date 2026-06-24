@@ -44,7 +44,7 @@ const ServerGroups = [
                     'hlsEncryption',
                     'hlsServerKey',
                     'hlsServerCert',
-                    'hlsAllowOrigins',
+                    'hlsAllowOrigins', 'hlsAllowOrigin',
                     'hlsTrustedProxies'
                 ]
             }
@@ -58,7 +58,7 @@ const ServerGroups = [
                 name: 'Enabled',
                 props: [
                     'rtsp',
-                    'rtspTransports',
+                    'rtspTransports', 'protocols',
                     'rtspAddress',
                     'rtspsAddress',
                     'rtpAddress',
@@ -74,9 +74,9 @@ const ServerGroups = [
             }, {
                 name: 'Security',
                 props: [
-                    'rtspEncryption',
-                    'rtspServerKey',
-                    'rtspServerCert',
+                    'rtspEncryption', 'encryption',
+                    'rtspServerKey', 'serverKey',
+                    'rtspServerCert', 'serverCert',
                     'rtspAuthMethods'
                 ]
             }
@@ -125,7 +125,7 @@ const ServerGroups = [
                 props: ['webrtcEncryption',
                     'webrtcServerKey',
                     'webrtcServerCert',
-                    'webrtcAllowOrigins',
+                    'webrtcAllowOrigins', 'webrtcAllowOrigin',
                     'webrtcTrustedProxies']
             }
         ]
@@ -143,7 +143,7 @@ const ServerGroups = [
                     'apiEncryption',
                     'apiServerKey',
                     'apiServerCert',
-                    'apiAllowOrigins',
+                    'apiAllowOrigins', 'apiAllowOrigin',
                     'apiTrustedProxies'
                 ]
             }
@@ -162,7 +162,7 @@ const ServerGroups = [
                     'pprofEncryption',
                     'pprofServerKey',
                     'pprofServerCert',
-                    'pprofAllowOrigins',
+                    'pprofAllowOrigins', 'pprofAllowOrigin',
                     'pprofTrustedProxies'
                 ]
             }
@@ -181,7 +181,7 @@ const ServerGroups = [
                     'playbackEncryption',
                     'playbackServerKey',
                     'playbackServerCert',
-                    'playbackAllowOrigins',
+                    'playbackAllowOrigins', 'playbackAllowOrigin',
                     'playbackTrustedProxies'
                 ]
             }
@@ -200,7 +200,7 @@ const ServerGroups = [
                     'metricsEncryption',
                     'metricsServerKey',
                     'metricsServerCert',
-                    'metricsAllowOrigins',
+                    'metricsAllowOrigins', 'metricsAllowOrigin',
                     'metricsTrustedProxies'
                 ]
             }

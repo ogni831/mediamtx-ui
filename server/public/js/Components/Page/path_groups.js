@@ -9,7 +9,7 @@ const PathGroups = [
                 name: 'Source',
                 props: [
                     'source',
-                    'sourceRedirect',
+                    'sourceRedirect', 'fallback',
                     'sourceFingerprint',
                     'sourceOnDemand',
                     'sourceOnDemandStartTimeout',
@@ -19,7 +19,7 @@ const PathGroups = [
                 name: 'I/O',
                 props: [
                     'maxReaders',
-                    'sourceRedirect',
+                    'sourceRedirect', 'fallback',
                     'srtReadPassphrase',
                     'overridePublisher',
                     'srtPublishPassphrase'
@@ -93,8 +93,8 @@ const PathGroups = [
             'rpiCameraCodec',
             'rpiCameraIDRPeriod',
             'rpiCameraBitrate',
-            'rpiCameraHardwareH264Profile',
-            'rpiCameraHardwareH264Level'
+            'rpiCameraHardwareH264Profile', 'rpiCameraProfile',
+            'rpiCameraHardwareH264Level', 'rpiCameraLevel'
         ]
     }, {
         name: 'Hooks',

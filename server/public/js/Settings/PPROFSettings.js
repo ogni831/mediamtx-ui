@@ -10,7 +10,7 @@ export default class PPROFSettings extends Setting {
             'pprofEncryption',
             'pprofServerKey',
             'pprofServerCert',
-            'pprofAllowOrigins',
+            'pprofAllowOrigins', 'pprofAllowOrigin',
             'pprofTrustedProxies'
         ];
     }

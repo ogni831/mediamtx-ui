@@ -56,6 +56,11 @@ export default class ServerTab extends Tab {
                     const locks = this.settings[storeKey].locked || [];
 
                     col.props.forEach(prop => {
+                        // Version-adaptive: render only fields the loaded MediaMTX
+                        // actually returned. server_groups lists a superset of
+                        // 1.9.3 + 1.19.1 names; absent ones (store value undefined)
+                        // are skipped so the same UI works against either version.
+                        if (store === undefined || store[prop] === undefined) return;
                         //const item = new FormItem(this, storeKey, store, prop, inputType, values, locked, {});
                         const item = new FormItem({
                             parent: this,

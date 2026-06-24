@@ -112,6 +112,11 @@ export default class StreamItem {
                     col.props.forEach(prop => {
                         if (prop === 'source')
                             return;
+                        // Version-adaptive: skip fields absent from a loaded
+                        // path config (props is a 1.9.3+1.19.1 superset). Only
+                        // skip when the store is populated so new-stream creation
+                        // (empty store) still renders every field.
+                        if (store && Object.keys(store).length && store[prop] === undefined) return;
 
                         const item = new FormItem({
                             parent: this,
@@ -136,6 +141,7 @@ export default class StreamItem {
             const groupElement = document.createElement("div");
             groupElement.className = "group fields";
             this.group.props.forEach(prop => {
+                if (store && Object.keys(store).length && store[prop] === undefined) return;
                 const item = new FormItem({
                     parent: this,
                     store: store,
