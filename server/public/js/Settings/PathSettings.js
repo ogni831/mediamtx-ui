@@ -24,7 +24,7 @@ export default class PathSettings extends Setting {
             'sourceOnDemandCloseAfter',
             'maxReaders',
             'srtReadPassphrase',
-            'fallback',
+            'sourceRedirect',
 
             // recording
             'record',
@@ -81,8 +81,8 @@ export default class PathSettings extends Setting {
             'rpiCameraCodec',
             'rpiCameraIDRPeriod',
             'rpiCameraBitrate',
-            'rpiCameraProfile',
-            'rpiCameraLevel',
+            'rpiCameraHardwareH264Profile',
+            'rpiCameraHardwareH264Level',
 
             // hooks
             'runOnInit',

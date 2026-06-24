@@ -10,7 +10,7 @@ export default class ApiSettings extends Setting {
             'apiEncryption',
             'apiServerKey',
             'apiServerCert',
-            'apiAllowOrigin',
+            'apiAllowOrigins',
             'apiTrustedProxies'
         ];
     }

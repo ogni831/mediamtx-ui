@@ -10,7 +10,7 @@ export default class HLSSettings extends Setting {
             'hlsEncryption',
             'hlsServerKey',
             'hlsServerCert',
-            'hlsAllowOrigin',
+            'hlsAllowOrigins',
             'hlsTrustedProxies',
             'hlsAlwaysRemux',
             'hlsVariant',
