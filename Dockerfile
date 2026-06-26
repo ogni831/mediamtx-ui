@@ -5,7 +5,7 @@
 # =============================================================================
 
 # --- deps: compile native modules (argon2) with a toolchain, then discard it --
-FROM node:26.3.1-bookworm-slim AS deps
+FROM node:26.4.0-bookworm-slim AS deps
 WORKDIR /app/server
 COPY server/package*.json ./
 RUN apt-get update \
@@ -14,7 +14,7 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/*
 
 # --- runtime: slim image with no build tools -------------------------------
-FROM node:26.3.1-bookworm-slim AS runtime
+FROM node:26.4.0-bookworm-slim AS runtime
 WORKDIR /app
 
 # Pre-built node_modules from the deps stage (same base → ABI-compatible).
