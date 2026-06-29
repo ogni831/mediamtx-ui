@@ -24,7 +24,7 @@ export default class PathSettings extends Setting {
             'sourceOnDemandCloseAfter',
             'maxReaders',
             'srtReadPassphrase',
-            'fallback',
+            'sourceRedirect', 'fallback',
 
             // recording
             'record',
@@ -45,7 +45,7 @@ export default class PathSettings extends Setting {
             'rtspRangeStart',
 
             // redirect source
-            'sourceRedirect',
+            'sourceRedirect', 'fallback',
 
             // Raspberry Pi Camera source
             'rpiCameraCamID',
@@ -81,8 +81,8 @@ export default class PathSettings extends Setting {
             'rpiCameraCodec',
             'rpiCameraIDRPeriod',
             'rpiCameraBitrate',
-            'rpiCameraProfile',
-            'rpiCameraLevel',
+            'rpiCameraHardwareH264Profile', 'rpiCameraProfile',
+            'rpiCameraHardwareH264Level', 'rpiCameraLevel',
 
             // hooks
             'runOnInit',

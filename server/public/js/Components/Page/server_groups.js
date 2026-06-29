@@ -1,6 +1,6 @@
 // Field groups for the "Server" tab.
-// Property names match the MediaMTX v1.9.3 Control API (GET /v3/config/global/get).
-// Only fields actually returned by 1.9.3 are listed here so every rendered input
+// Property names match the MediaMTX v1.19.1 Control API (GET /v3/config/global/get).
+// Only fields actually returned by 1.19.1 are listed here so every rendered input
 // has a defined value (FormItem picks the input type from the loaded value type).
 const ServerGroups = [
     {
@@ -44,7 +44,7 @@ const ServerGroups = [
                     'hlsEncryption',
                     'hlsServerKey',
                     'hlsServerCert',
-                    'hlsAllowOrigin',
+                    'hlsAllowOrigins', 'hlsAllowOrigin',
                     'hlsTrustedProxies'
                 ]
             }
@@ -58,7 +58,7 @@ const ServerGroups = [
                 name: 'Enabled',
                 props: [
                     'rtsp',
-                    'protocols',
+                    'rtspTransports', 'protocols',
                     'rtspAddress',
                     'rtspsAddress',
                     'rtpAddress',
@@ -74,9 +74,9 @@ const ServerGroups = [
             }, {
                 name: 'Security',
                 props: [
-                    'encryption',
-                    'serverKey',
-                    'serverCert',
+                    'rtspEncryption', 'encryption',
+                    'rtspServerKey', 'serverKey',
+                    'rtspServerCert', 'serverCert',
                     'rtspAuthMethods'
                 ]
             }
@@ -125,7 +125,7 @@ const ServerGroups = [
                 props: ['webrtcEncryption',
                     'webrtcServerKey',
                     'webrtcServerCert',
-                    'webrtcAllowOrigin',
+                    'webrtcAllowOrigins', 'webrtcAllowOrigin',
                     'webrtcTrustedProxies']
             }
         ]
@@ -143,7 +143,7 @@ const ServerGroups = [
                     'apiEncryption',
                     'apiServerKey',
                     'apiServerCert',
-                    'apiAllowOrigin',
+                    'apiAllowOrigins', 'apiAllowOrigin',
                     'apiTrustedProxies'
                 ]
             }
@@ -162,7 +162,7 @@ const ServerGroups = [
                     'pprofEncryption',
                     'pprofServerKey',
                     'pprofServerCert',
-                    'pprofAllowOrigin',
+                    'pprofAllowOrigins', 'pprofAllowOrigin',
                     'pprofTrustedProxies'
                 ]
             }
@@ -181,7 +181,7 @@ const ServerGroups = [
                     'playbackEncryption',
                     'playbackServerKey',
                     'playbackServerCert',
-                    'playbackAllowOrigin',
+                    'playbackAllowOrigins', 'playbackAllowOrigin',
                     'playbackTrustedProxies'
                 ]
             }
@@ -200,7 +200,7 @@ const ServerGroups = [
                     'metricsEncryption',
                     'metricsServerKey',
                     'metricsServerCert',
-                    'metricsAllowOrigin',
+                    'metricsAllowOrigins', 'metricsAllowOrigin',
                     'metricsTrustedProxies'
                 ]
             }

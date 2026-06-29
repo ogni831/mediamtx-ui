@@ -10,7 +10,7 @@ export default class PlaybackSettings extends Setting {
             'playbackEncryption',
             'playbackServerKey',
             'playbackServerCert',
-            'playbackAllowOrigin',
+            'playbackAllowOrigins', 'playbackAllowOrigin',
             'playbackTrustedProxies'
         ];
     }

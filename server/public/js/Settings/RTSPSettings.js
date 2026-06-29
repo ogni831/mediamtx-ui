@@ -6,8 +6,8 @@ export default class RTSPSettings extends Setting {
 
         this.fields = [
             'rtsp',
-            'protocols',
-            'encryption',
+            'rtspTransports', 'protocols',
+            'rtspEncryption', 'encryption',
             'rtspAddress',
             'rtspsAddress',
             'rtpAddress',
@@ -15,8 +15,8 @@ export default class RTSPSettings extends Setting {
             'multicastIPRange',
             'multicastRTPPort',
             'multicastRTCPPort',
-            'serverKey',
-            'serverCert',
+            'rtspServerKey', 'serverKey',
+            'rtspServerCert', 'serverCert',
             'rtspAuthMethods'
         ];
 

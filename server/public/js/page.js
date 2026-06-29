@@ -25,7 +25,8 @@ export default class Page {
         this.events = window._EVENTS = new EventEmitter();
         this.fm = new FetchManager({
             onUnauthorized() {
-                window.location.href = "/"; // redirect to home on 401
+                // sub-path-aware: корінь застосунку (не сайту) на 401
+                window.location.href = new URL('.', document.baseURI).href;
             },
         });
 

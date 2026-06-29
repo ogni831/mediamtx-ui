@@ -10,7 +10,7 @@ export default class WebRTCSettings extends Setting {
             'webrtcEncryption',
             'webrtcServerKey',
             'webrtcServerCert',
-            'webrtcAllowOrigin',
+            'webrtcAllowOrigins', 'webrtcAllowOrigin',
             'webrtcTrustedProxies',
             'webrtcLocalUDPAddress',
             'webrtcLocalTCPAddress',

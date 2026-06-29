@@ -1,5 +1,5 @@
 // Field groups for path defaults and per-path editing.
-// Property names match the MediaMTX v1.9.3 Control API (GET /v3/config/pathdefaults/get).
+// Property names match the MediaMTX v1.19.1 Control API (GET /v3/config/pathdefaults/get).
 const PathGroups = [
     {
         name: 'Source',
@@ -9,7 +9,7 @@ const PathGroups = [
                 name: 'Source',
                 props: [
                     'source',
-                    'sourceRedirect',
+                    'sourceRedirect', 'fallback',
                     'sourceFingerprint',
                     'sourceOnDemand',
                     'sourceOnDemandStartTimeout',
@@ -19,7 +19,7 @@ const PathGroups = [
                 name: 'I/O',
                 props: [
                     'maxReaders',
-                    'fallback',
+                    'sourceRedirect', 'fallback',
                     'srtReadPassphrase',
                     'overridePublisher',
                     'srtPublishPassphrase'
@@ -93,8 +93,8 @@ const PathGroups = [
             'rpiCameraCodec',
             'rpiCameraIDRPeriod',
             'rpiCameraBitrate',
-            'rpiCameraProfile',
-            'rpiCameraLevel'
+            'rpiCameraHardwareH264Profile', 'rpiCameraProfile',
+            'rpiCameraHardwareH264Level', 'rpiCameraLevel'
         ]
     }, {
         name: 'Hooks',
