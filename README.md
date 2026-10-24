@@ -153,6 +153,8 @@ An example nginx vhost (TLS + security headers + optional second Basic-auth laye
 | `SESSION_COOKIE_SECURE` | `false` | `true` only when served over HTTPS end-to-end |
 | `SESSION_STORE_PATH` | `/app/config/sessions` | File session store dir (production) |
 | `SERVER_PORT` | `3000` | UI listen port |
+| `AUTH_DISABLED` | `false` | Proxy-auth mode: skip the app login for requests carrying `X-Proxy-Auth`. Requires `PROXY_AUTH_SECRET` |
+| `PROXY_AUTH_SECRET` | — | ≥16 chars; the reverse proxy must send it as `X-Proxy-Auth`. Requests without it get 401. `openssl rand -hex 32` |
 | `MEDIAMTX_API_URL_BASE` | `http://mediamtx:9997/v3` | MediaMTX Control API base |
 | `MEDIAMTX_METRICS_URL_BASE` | `http://mediamtx:9998/metrics` | MediaMTX metrics endpoint |
 | `MEDIAMTX_VERSION` | `1.21.2-ffmpeg-rpi` | MediaMTX image tag |
@@ -175,6 +177,8 @@ This fork hardens the original for real deployment:
 - **CSRF enforced on proxy/API mutations** (reads pass; all mutating calls send the token).
 - Session id **regenerated on login** (anti session-fixation); proxy requests have a fetch timeout and never echo internal errors.
 - MediaMTX metrics bound to loopback in the bundled compose.
+
+- **Proxy-auth mode** (`AUTH_DISABLED=true`) is fail-closed: the server refuses to start without `PROXY_AUTH_SECRET`, and only requests with the matching `X-Proxy-Auth` header (constant-time compare) skip the login — the flag is per-request, never stored in the session.
 
 > Still a LAN/admin tool: always run it behind an authenticated TLS reverse proxy if reachable beyond `localhost`.
 

@@ -45,7 +45,7 @@ export default class AuthRoutes {
         //
         this.router.get("/status", (req, res) => {
             res.json({
-                isAuthenticated: req.session?.isAuthenticated || false
+                isAuthenticated: req.isProxyAuthenticated || req.session?.isAuthenticated || false
             });
         });
     }

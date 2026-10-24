@@ -87,15 +87,21 @@ export default class Server extends Events {
         this.generateCsrfToken = generateToken;
         this._invalidCsrfTokenError = invalidCsrfTokenError;
 
-        // Auth-bypass для довіреного reverse-proxy деплою: коли AUTH_DISABLED=true,
-        // кожен запит вважається автентифікованим (власна форма логіну не
-        // показується). Призначено для роботи ЗА nginx з auth_basic перед
-        // /mediamtx-ui/ (як Frigate/YOLO) — зовнішній proxy і є межею auth.
+        // Trusted reverse-proxy mode: when AUTH_DISABLED=true the app's own login is
+        // skipped, but ONLY for requests that carry the shared secret injected by
+        // the proxy (X-Proxy-Auth == PROXY_AUTH_SECRET). Anyone who reaches the
+        // port directly, bypassing the proxy, still gets 401. The flag is
+        // per-request and is never written into the session.
         if (process.env.AUTH_DISABLED === 'true') {
+            const secret = process.env.PROXY_AUTH_SECRET || '';
+            if (secret.length < 16)
+                throw new Error('AUTH_DISABLED=true requires PROXY_AUTH_SECRET (min 16 chars) injected by the reverse proxy as X-Proxy-Auth.');
+
+            const expected = crypto.createHash('sha256').update(secret).digest();
             this.engine.use((req, res, next) => {
-                if (req.session && !req.session.isAuthenticated) {
-                    req.session.isAuthenticated = true;
-                }
+                const given = crypto.createHash('sha256').update(req.get('X-Proxy-Auth') || '').digest();
+                if (crypto.timingSafeEqual(given, expected))
+                    req.isProxyAuthenticated = true;
                 next();
             });
         }
@@ -106,7 +112,7 @@ export default class Server extends Events {
 
         // require authentication for all other routes
         this.engine.use((req, res, next) => {
-            if (!req.session?.isAuthenticated) {
+            if (!req.isProxyAuthenticated && !req.session?.isAuthenticated) {
                 return res.sendStatus(401);
             }
             next();
