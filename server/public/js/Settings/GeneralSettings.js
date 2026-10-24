@@ -8,6 +8,10 @@ export default class GeneralSettings extends Setting {
             'logLevel',
             'logDestinations',
             'logFile',
+            'logStructured',
+            'sysLogPrefix',
+            'dumpPackets',
+            'udpReadBufferSize',
             'readTimeout',
             'writeTimeout',
             'writeQueueSize',
@@ -19,7 +23,7 @@ export default class GeneralSettings extends Setting {
 
         this.options = {
             logLevel: ['debug', 'info', 'warn', 'error'],
-            logDestinations: ['stdout', 'file']
+            logDestinations: ['stdout', 'file', 'syslog']
         };
     }
 }

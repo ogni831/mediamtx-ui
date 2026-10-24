@@ -91,7 +91,7 @@ export default class FormItem extends Component {
 
             // if the data type is an array AND no values given
             if (this.dataType === 'array' && !this.values) {
-                if (this.prop === 'authHTTPExclude') {
+                if (this.prop === 'authHTTPExclude' || this.prop === 'authJWTExclude') {
                     // the permissions
                     return 'PermissionsInput';
 

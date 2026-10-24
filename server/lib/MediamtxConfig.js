@@ -100,7 +100,7 @@ export class MediamtxConfig {
      */
     async getPathDefaults() {
         try {
-            const url = `${this.apiUrlBase}/config/pathdefaults/get`;
+            const url = `${this.apiUrlBase}/config/path-defaults/get`;
             const res = await fetch(url);
             return await res.json();
             //return JSON.parse(text.trim());

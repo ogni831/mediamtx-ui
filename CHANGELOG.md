@@ -4,6 +4,29 @@ All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Changed
+- Retargeted to **MediaMTX 1.21.2** (Control API v3). Dropped 1.9.3 compatibility.
+- API routes renamed to the current scheme: `config/path-defaults`, `hls/muxers`,
+  `rtsp|rtsps|rtmp|rtmps|srt|webrtc` `conns|sessions`, `recordings/segments/delete`.
+- Settings fields renamed: `protocols` → `rtspTransports`, `encryption` → `rtspEncryption`,
+  `serverKey/serverCert` → `rtspServerKey/rtspServerCert`, `*AllowOrigin` → `*AllowOrigins` (list),
+  `runOnReady/NotReady` → `runOnAvailable/Unavailable`, `rpiCameraProfile/Level` → `rpiCameraH264Profile/Level`.
+- Default image tag `1.21.2-ffmpeg-rpi`.
+- `default.yaml` is now the stock 1.21.2 `mediamtx.yml`; inline help regenerated from it.
+
+### Removed
+- `fallback` path option (no longer returned by the API; superseded by `alwaysAvailable*`).
+
+### Added
+- Settings for 1.21.2-only options: **MoQ** server group, `authJWT*` (issuer, audience, JWKS fingerprint, exclude), `authHTTPFingerprint`,
+  SRTP/SRTCP ports, `*TrustedProxies`, `hlsCDNSecret`, `webrtcICEServers2` / `forward` (JSON editor), `logStructured`, `dumpPackets`,
+  `udpReadBufferSize`; path options `alwaysAvailable*` (with track editor), WHEP timeouts/token, `useAbsoluteTimestamp`,
+  `recordMaxPartSize`, `rtspDemuxMpegts`, `rtspScale`, `rtpSDP`, `runOnOnline/Offline`, `moqTransport`.
+- Monitoring: HLS and MoQ sessions.
+- Proxy routes: `/info`, `/auth/jwks/refresh`, HLS sessions, MoQ sessions, `paths/forward-dests`, `paths/static-sources`.
+
 ## [1.0.0] — 2026-06-20
 
 First stable release. **1.9.3 adaptation by deadSam** of

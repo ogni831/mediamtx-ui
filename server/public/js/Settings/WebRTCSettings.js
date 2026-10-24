@@ -10,7 +10,7 @@ export default class WebRTCSettings extends Setting {
             'webrtcEncryption',
             'webrtcServerKey',
             'webrtcServerCert',
-            'webrtcAllowOrigin',
+            'webrtcAllowOrigins',
             'webrtcTrustedProxies',
             'webrtcLocalUDPAddress',
             'webrtcLocalTCPAddress',
@@ -18,7 +18,15 @@ export default class WebRTCSettings extends Setting {
             'webrtcIPsFromInterfacesList',
             'webrtcAdditionalHosts',
             'webrtcHandshakeTimeout',
-            'webrtcTrackGatherTimeout'
+            'webrtcTrackGatherTimeout',
+            'webrtcSTUNGatherTimeout',
+            'webrtcIPsFromInterfacesExcludeList',
+            'webrtcICEServers2'
         ];
+
+        // list of objects (url, username, password, clientOnly) -> edited as JSON
+        this.inputType = {
+            webrtcICEServers2: 'JsonInput'
+        };
     }
 }

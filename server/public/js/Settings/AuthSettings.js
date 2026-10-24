@@ -7,9 +7,14 @@ export default class AuthSettings extends Setting {
         this.fields = [
             'authMethod',
             'authHTTPAddress',
+            'authHTTPFingerprint',
             'authHTTPExclude',
             'authJWTJWKS',
-            'authJWTClaimKey'
+            'authJWTClaimKey',
+            'authJWTJWKSFingerprint',
+            'authJWTExclude',
+            'authJWTIssuer',
+            'authJWTAudience'
         ];
 
         this.options = {

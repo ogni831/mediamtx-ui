@@ -1,7 +1,7 @@
 import Setting from "./Setting.js";
 
 /**
- * Path defaults (GET/PATCH /v3/config/pathdefaults).
+ * Path defaults (GET/PATCH /v3/config/path-defaults).
  * Also provides the schema (fields / options / inputType) reused by the
  * per-path editor in the Streams tab.
  */
@@ -24,7 +24,19 @@ export default class PathSettings extends Setting {
             'sourceOnDemandCloseAfter',
             'maxReaders',
             'srtReadPassphrase',
-            'fallback',
+            'useAbsoluteTimestamp',
+            'whepBearerToken',
+            'whepHandshakeTimeout',
+            'whepSTUNGatherTimeout',
+            'whepTrackGatherTimeout',
+            'moqTransport',
+            'forward',
+
+            // always available
+            'alwaysAvailable',
+            'alwaysAvailableFile',
+            'alwaysAvailableRecorded',
+            'alwaysAvailableTracks',
 
             // recording
             'record',
@@ -32,6 +44,7 @@ export default class PathSettings extends Setting {
             'recordFormat',
             'recordPartDuration',
             'recordSegmentDuration',
+            'recordMaxPartSize',
             'recordDeleteAfter',
 
             // publisher source
@@ -43,6 +56,10 @@ export default class PathSettings extends Setting {
             'rtspAnyPort',
             'rtspRangeType',
             'rtspRangeStart',
+            'rtspDemuxMpegts',
+            'rtspScale',
+            'rtspUDPSourcePortRange',
+            'rtpSDP',
 
             // redirect source
             'sourceRedirect',
@@ -81,8 +98,10 @@ export default class PathSettings extends Setting {
             'rpiCameraCodec',
             'rpiCameraIDRPeriod',
             'rpiCameraBitrate',
-            'rpiCameraProfile',
-            'rpiCameraLevel',
+            'rpiCameraH264Profile',
+            'rpiCameraH264Level',
+            'rpiCameraMJPEGQuality',
+            'rpiCameraSecondary',
 
             // hooks
             'runOnInit',
@@ -92,9 +111,12 @@ export default class PathSettings extends Setting {
             'runOnDemandStartTimeout',
             'runOnDemandCloseAfter',
             'runOnUnDemand',
-            'runOnReady',
-            'runOnReadyRestart',
-            'runOnNotReady',
+            'runOnAvailable',
+            'runOnAvailableRestart',
+            'runOnUnavailable',
+            'runOnOnline',
+            'runOnOnlineRestart',
+            'runOnOffline',
             'runOnRead',
             'runOnReadRestart',
             'runOnUnread',
@@ -116,13 +138,18 @@ export default class PathSettings extends Setting {
             rpiCameraAfRange: ['normal', 'macro', 'full'],
             rpiCameraAfSpeed: ['normal', 'fast'],
             rpiCameraCodec: ['auto', 'hardwareH264', 'softwareH264', 'mjpeg'],
-            rpiCameraProfile: ['baseline', 'main', 'high'],
-            rpiCameraLevel: ['4.0', '4.1', '4.2']
+            rpiCameraH264Profile: ['auto', 'baseline', 'main', 'high'],
+            rpiCameraH264Level: ['4.0', '4.1', '4.2'],
+            moqTransport: ['quic', 'webtransport'],
+            alwaysAvailableTracks: {codecs: ['AV1', 'VP9', 'H265', 'H264', 'MPEG4Audio', 'Opus', 'G711', 'LPCM']}
         };
 
         this.inputType = {
             name: 'SelectTextInput',
-            source: 'SelectTextInput'
+            source: 'SelectTextInput',
+            moqTransport: 'SelectTextInput',
+            alwaysAvailableTracks: 'AvailableTracksInput',
+            forward: 'JsonInput'
         };
     }
 }

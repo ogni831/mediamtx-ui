@@ -1,5 +1,5 @@
 // Field groups for path defaults and per-path editing.
-// Property names match the MediaMTX v1.9.3 Control API (GET /v3/config/pathdefaults/get).
+// Property names match the MediaMTX v1.21.2 Control API (GET /v3/config/path-defaults/get).
 const PathGroups = [
     {
         name: 'Source',
@@ -19,10 +19,35 @@ const PathGroups = [
                 name: 'I/O',
                 props: [
                     'maxReaders',
-                    'fallback',
+                    'useAbsoluteTimestamp',
                     'srtReadPassphrase',
                     'overridePublisher',
                     'srtPublishPassphrase'
+                ]
+            }, {
+                name: 'WHEP',
+                props: [
+                    'whepBearerToken',
+                    'whepHandshakeTimeout',
+                    'whepSTUNGatherTimeout',
+                    'whepTrackGatherTimeout'
+                ]
+            }, {
+                name: 'Forward',
+                props: ['moqTransport', 'forward']
+            }
+        ]
+    }, {
+        name: 'Always available',
+        storeKey: 'alwaysAvailable',
+        columns: [
+            {
+                name: 'Fallback stream',
+                props: [
+                    'alwaysAvailable',
+                    'alwaysAvailableFile',
+                    'alwaysAvailableRecorded',
+                    'alwaysAvailableTracks'
                 ]
             }
         ]
@@ -38,7 +63,8 @@ const PathGroups = [
                 props: [
                     'recordPartDuration',
                     'recordSegmentDuration',
-                    'recordDeleteAfter'
+                    'recordDeleteAfter',
+                    'recordMaxPartSize'
                 ]
             }
         ]
@@ -52,7 +78,11 @@ const PathGroups = [
                     'rtspTransport',
                     'rtspAnyPort',
                     'rtspRangeType',
-                    'rtspRangeStart'
+                    'rtspRangeStart',
+                    'rtspDemuxMpegts',
+                    'rtspScale',
+                    'rtspUDPSourcePortRange',
+                    'rtpSDP'
                 ]
             }
         ]
@@ -93,8 +123,10 @@ const PathGroups = [
             'rpiCameraCodec',
             'rpiCameraIDRPeriod',
             'rpiCameraBitrate',
-            'rpiCameraProfile',
-            'rpiCameraLevel'
+            'rpiCameraH264Profile',
+            'rpiCameraH264Level',
+            'rpiCameraMJPEGQuality',
+            'rpiCameraSecondary'
         ]
     }, {
         name: 'Hooks',
@@ -109,9 +141,12 @@ const PathGroups = [
                     'runOnDemandStartTimeout',
                     'runOnDemandCloseAfter',
                     'runOnUnDemand',
-                    'runOnReady',
-                    'runOnReadyRestart',
-                    'runOnNotReady',
+                    'runOnAvailable',
+                    'runOnAvailableRestart',
+                    'runOnUnavailable',
+                    'runOnOnline',
+                    'runOnOnlineRestart',
+                    'runOnOffline',
                     'runOnRead',
                     'runOnReadRestart',
                     'runOnUnread',

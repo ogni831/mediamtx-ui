@@ -10,7 +10,7 @@ export default class MetricsSettings extends Setting {
             'metricsEncryption',
             'metricsServerKey',
             'metricsServerCert',
-            'metricsAllowOrigin',
+            'metricsAllowOrigins',
             'metricsTrustedProxies'
         ];
     }

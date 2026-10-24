@@ -3,7 +3,7 @@ import Tab from "./Tab.js";
 
 // Recordings browser backed by the MediaMTX v3 recordings API.
 // GET /v3/recordings/list → { items: [{ name, segments: [{ start }] }] }
-// DELETE /v3/recordings/deletesegment?path=&start=
+// DELETE /v3/recordings/segments/delete?path=&start=
 export default class RecordingsTab extends Tab {
     constructor(page) {
         super(page);
@@ -102,7 +102,7 @@ export default class RecordingsTab extends Tab {
         if (!window.confirm(`${t('recordings.confirm')}\n\n${name}\n${start}`))
             return;
 
-        const url = `/mediamtx/recordings/deletesegment`
+        const url = `/mediamtx/recordings/segments/delete`
             + `?path=${encodeURIComponent(name)}&start=${encodeURIComponent(start)}`;
 
         const res = await this.fm.fetch(url, {

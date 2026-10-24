@@ -10,7 +10,7 @@ export default class HLSSettings extends Setting {
             'hlsEncryption',
             'hlsServerKey',
             'hlsServerCert',
-            'hlsAllowOrigin',
+            'hlsAllowOrigins',
             'hlsTrustedProxies',
             'hlsAlwaysRemux',
             'hlsVariant',
@@ -19,7 +19,8 @@ export default class HLSSettings extends Setting {
             'hlsPartDuration',
             'hlsSegmentMaxSize',
             'hlsDirectory',
-            'hlsMuxerCloseAfter'
+            'hlsMuxerCloseAfter',
+            'hlsCDNSecret'
         ];
 
         this.options = {

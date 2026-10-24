@@ -49,6 +49,8 @@ const DICT = {
         'mon.rtmpConns': 'RTMP connections',
         'mon.srtConns': 'SRT connections',
         'mon.webrtcSessions': 'WebRTC sessions',
+        'mon.hlsSessions': 'HLS sessions',
+        'mon.moqSessions': 'MoQ sessions',
 
         'toast.savedGlobal': 'Saved global settings',
         'toast.savedPaths': 'Saved paths settings',
@@ -110,6 +112,8 @@ const DICT = {
         'mon.rtmpConns': "RTMP-з'єднання",
         'mon.srtConns': "SRT-з'єднання",
         'mon.webrtcSessions': 'WebRTC-сесії',
+        'mon.hlsSessions': 'HLS-сесії',
+        'mon.moqSessions': 'MoQ-сесії',
 
         'toast.savedGlobal': 'Збережено глобальні налаштування',
         'toast.savedPaths': 'Збережено налаштування шляхів',

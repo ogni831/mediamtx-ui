@@ -1,12 +1,12 @@
 {
   "name": "mediamtx-ui",
   "version": "1.0.0",
-  "description": "Web UI to configure a MediaMTX 1.9.3 server at runtime (Node/Express + vanilla JS).",
+  "description": "Web UI to configure a MediaMTX 1.21.2 server at runtime (Node/Express + vanilla JS).",
   "main": "index.js",
   "type": "module",
   "author": "Matthias Kallenbach",
   "contributors": [
-    "deadSam (1.9.3 adaptation)"
+    "deadSam (MediaMTX adaptation)"
   ],
   "license": "ISC",
   "repository": {

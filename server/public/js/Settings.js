@@ -13,6 +13,7 @@ import {
     HLSSettings,
     WebRTCPSettings,
     SRTSettings,
+    MoQSettings,
     PathSettings,
     PathsSettings
 } from "./Settings/index.js";
@@ -50,6 +51,7 @@ export default class Settings {
         this.tree.hls = new HLSSettings(this);
         this.tree.webrtc = new WebRTCPSettings(this);
         this.tree.srt = new SRTSettings(this);
+        this.tree.moq = new MoQSettings(this);
 
         this.tree.path = new PathSettings(this);
         this.tree.paths = new PathsSettings(this); // multiple
@@ -205,6 +207,10 @@ export default class Settings {
         return this.store.srt;
     }
 
+    get moq() {
+        return this.store.moq;
+    }
+
     get path() {
         return this.store.path;
     }
@@ -264,6 +270,10 @@ export default class Settings {
 
     set srt(val) {
         this.store.srt = val;
+    }
+
+    set moq(val) {
+        this.store.moq = val;
     }
 
     set path(val) {

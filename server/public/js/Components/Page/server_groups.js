@@ -1,6 +1,6 @@
 // Field groups for the "Server" tab.
-// Property names match the MediaMTX v1.9.3 Control API (GET /v3/config/global/get).
-// Only fields actually returned by 1.9.3 are listed here so every rendered input
+// Property names match the MediaMTX v1.21.2 Control API (GET /v3/config/global/get).
+// Only fields actually returned by 1.21.2 are listed here so every rendered input
 // has a defined value (FormItem picks the input type from the loaded value type).
 const ServerGroups = [
     {
@@ -9,10 +9,10 @@ const ServerGroups = [
         columns: [
             {
                 name: 'Logging',
-                props: ['logLevel', 'logDestinations', 'logFile']
+                props: ['logLevel', 'logDestinations', 'logFile', 'logStructured', 'sysLogPrefix']
             }, {
                 name: 'I/O',
-                props: ['udpMaxPayloadSize', 'readTimeout', 'writeTimeout', 'writeQueueSize']
+                props: ['udpMaxPayloadSize', 'udpReadBufferSize', 'readTimeout', 'writeTimeout', 'writeQueueSize', 'dumpPackets']
             }, {
                 name: 'Hooks',
                 props: ['runOnConnect', 'runOnConnectRestart', 'runOnDisconnect']
@@ -36,7 +36,8 @@ const ServerGroups = [
                     'hlsPartDuration',
                     'hlsSegmentMaxSize',
                     'hlsDirectory',
-                    'hlsMuxerCloseAfter'
+                    'hlsMuxerCloseAfter',
+                    'hlsCDNSecret'
                 ]
             }, {
                 name: 'Security',
@@ -44,7 +45,7 @@ const ServerGroups = [
                     'hlsEncryption',
                     'hlsServerKey',
                     'hlsServerCert',
-                    'hlsAllowOrigin',
+                    'hlsAllowOrigins',
                     'hlsTrustedProxies'
                 ]
             }
@@ -58,26 +59,31 @@ const ServerGroups = [
                 name: 'Enabled',
                 props: [
                     'rtsp',
-                    'protocols',
+                    'rtspTransports',
                     'rtspAddress',
                     'rtspsAddress',
                     'rtpAddress',
-                    'rtcpAddress'
+                    'rtcpAddress',
+                    'srtpAddress',
+                    'srtcpAddress'
                 ]
             }, {
                 name: 'Multicast',
                 props: [
                     'multicastIPRange',
                     'multicastRTPPort',
-                    'multicastRTCPPort'
+                    'multicastRTCPPort',
+                    'multicastSRTPPort',
+                    'multicastSRTCPPort'
                 ]
             }, {
                 name: 'Security',
                 props: [
-                    'encryption',
-                    'serverKey',
-                    'serverCert',
-                    'rtspAuthMethods'
+                    'rtspEncryption',
+                    'rtspServerKey',
+                    'rtspServerCert',
+                    'rtspAuthMethods',
+                    'rtspTrustedProxies'
                 ]
             }
         ]
@@ -91,7 +97,7 @@ const ServerGroups = [
                 props: ['rtmp', 'rtmpAddress', 'rtmpsAddress']
             }, {
                 name: 'Security',
-                props: ['rtmpEncryption', 'rtmpServerKey', 'rtmpServerCert']
+                props: ['rtmpEncryption', 'rtmpServerKey', 'rtmpServerCert', 'rtmpTrustedProxies']
             }
         ]
     },
@@ -102,6 +108,19 @@ const ServerGroups = [
             {
                 name: 'Enabled',
                 props: ['srt', 'srtAddress']
+            }
+        ]
+    },
+    {
+        name: 'MoQ',
+        storeKey: 'moq',
+        columns: [
+            {
+                name: 'Enabled',
+                props: ['moq', 'moqHTTP2Address', 'moqHTTP3Address', 'moqQUICAddress']
+            }, {
+                name: 'Security',
+                props: ['moqServerKey', 'moqServerCert', 'moqAllowOrigins', 'moqTrustedProxies']
             }
         ]
     },
@@ -117,15 +136,18 @@ const ServerGroups = [
                 name: 'Settings',
                 props: ['webrtcIPsFromInterfaces',
                     'webrtcIPsFromInterfacesList',
+                    'webrtcIPsFromInterfacesExcludeList',
                     'webrtcAdditionalHosts',
                     'webrtcHandshakeTimeout',
-                    'webrtcTrackGatherTimeout']
+                    'webrtcTrackGatherTimeout',
+                    'webrtcSTUNGatherTimeout',
+                    'webrtcICEServers2']
             }, {
                 name: 'Security',
                 props: ['webrtcEncryption',
                     'webrtcServerKey',
                     'webrtcServerCert',
-                    'webrtcAllowOrigin',
+                    'webrtcAllowOrigins',
                     'webrtcTrustedProxies']
             }
         ]
@@ -143,7 +165,7 @@ const ServerGroups = [
                     'apiEncryption',
                     'apiServerKey',
                     'apiServerCert',
-                    'apiAllowOrigin',
+                    'apiAllowOrigins',
                     'apiTrustedProxies'
                 ]
             }
@@ -162,7 +184,7 @@ const ServerGroups = [
                     'pprofEncryption',
                     'pprofServerKey',
                     'pprofServerCert',
-                    'pprofAllowOrigin',
+                    'pprofAllowOrigins',
                     'pprofTrustedProxies'
                 ]
             }
@@ -181,7 +203,7 @@ const ServerGroups = [
                     'playbackEncryption',
                     'playbackServerKey',
                     'playbackServerCert',
-                    'playbackAllowOrigin',
+                    'playbackAllowOrigins',
                     'playbackTrustedProxies'
                 ]
             }
@@ -200,7 +222,7 @@ const ServerGroups = [
                     'metricsEncryption',
                     'metricsServerKey',
                     'metricsServerCert',
-                    'metricsAllowOrigin',
+                    'metricsAllowOrigins',
                     'metricsTrustedProxies'
                 ]
             }
@@ -214,18 +236,23 @@ const ServerGroups = [
                 name: 'Connection',
                 props: [
                     'authMethod',
-                    'authHTTPAddress'
+                    'authHTTPAddress',
+                    'authHTTPFingerprint'
                 ]
             }, {
                 name: 'JWT',
                 props: [
                     'authJWTJWKS',
-                    'authJWTClaimKey'
+                    'authJWTClaimKey',
+                    'authJWTJWKSFingerprint',
+                    'authJWTIssuer',
+                    'authJWTAudience'
                 ]
             }, {
                 name: 'Excludes',
                 props: [
-                    'authHTTPExclude'
+                    'authHTTPExclude',
+                    'authJWTExclude'
                 ]
             }
         ]

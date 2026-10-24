@@ -1,10 +1,10 @@
 # 🎥 mediamtx-ui
 
-> A dependency-light web UI to configure a [**MediaMTX**](https://github.com/bluenviron/mediamtx) **1.9.3** server at runtime — global settings, path defaults, streams, internal users, live HLS/WebRTC preview, connection monitoring, recordings and playback.
+> A dependency-light web UI to configure a [**MediaMTX**](https://github.com/bluenviron/mediamtx) **1.21.2** server at runtime — global settings, path defaults, streams, internal users, live HLS/WebRTC preview, connection monitoring, recordings and playback.
 
 Node/Express backend that proxies the MediaMTX **v3 Control API** + a framework-free reactive vanilla-JS frontend. Designed for a **LAN / admin** scenario behind a reverse proxy — not to be exposed raw on the public internet.
 
-This is a fork of [seekwhencer/mediamtx-ui](https://github.com/seekwhencer/mediamtx-ui) (which targets 1.16.0), **retargeted to MediaMTX 1.9.3** and security-hardened (see [Security](#-security)).
+This is a fork of [seekwhencer/mediamtx-ui](https://github.com/seekwhencer/mediamtx-ui) (which targets 1.16.0), **retargeted to MediaMTX 1.21.2** and security-hardened (see [Security](#-security)).
 
 ---
 
@@ -49,8 +49,8 @@ Browser ──HTTPS──> reverse proxy ──> mediamtx-ui (Node/Express, :300
                                           ├── /auth/*      session login (argon2 + CSRF)
                                           └── /mediamtx/*  → proxies MediaMTX v3 Control API
                                                               (http://mediamtx:9997/v3)
-Browser ── media (HLS :8888 / WebRTC :8889 / Playback :9996) ──> MediaMTX 1.9.3
-MediaMTX 1.9.3 ── RTSP/RTMP/HLS/WebRTC/SRT ──> cameras / players
+Browser ── media (HLS :8888 / WebRTC :8889 / Playback :9996) ──> MediaMTX 1.21.2
+MediaMTX 1.21.2 ── RTSP/RTMP/HLS/WebRTC/SRT ──> cameras / players
 ```
 
 Every Control-API call is proxied through the authenticated backend. Media itself
@@ -62,7 +62,7 @@ HLS player already hits `:8888`.
 ## 📦 Requirements
 
 - Docker + Docker Compose
-- A running (or co-deployed) **MediaMTX 1.9.3** server with its **Control API enabled** (`api: yes`, `apiAddress: :9997`), **metrics** (`metrics: yes`, `:9998`) and, for the Playback tab, the **playback server** (`playback: yes`, `:9996`). The bundled `config/mediamtx.default.yml` pre-enables all three.
+- A running (or co-deployed) **MediaMTX 1.21.2** server with its **Control API enabled** (`api: yes`, `apiAddress: :9997`), **metrics** (`metrics: yes`, `:9998`) and, for the Playback tab, the **playback server** (`playback: yes`, `:9996`). The bundled `config/mediamtx.default.yml` pre-enables all three.
 - (Production) a reverse proxy terminating TLS in front of the UI
 
 ---
@@ -155,7 +155,7 @@ An example nginx vhost (TLS + security headers + optional second Basic-auth laye
 | `SERVER_PORT` | `3000` | UI listen port |
 | `MEDIAMTX_API_URL_BASE` | `http://mediamtx:9997/v3` | MediaMTX Control API base |
 | `MEDIAMTX_METRICS_URL_BASE` | `http://mediamtx:9998/metrics` | MediaMTX metrics endpoint |
-| `MEDIAMTX_VERSION` | `1.9.3-ffmpeg-rpi` | MediaMTX image tag |
+| `MEDIAMTX_VERSION` | `1.21.2-ffmpeg-rpi` | MediaMTX image tag |
 | `RTSP_PORT` / `RTMP_PORT` / `HLS_PORT` / `WEBRTC_PORT` / `SRT_PORT` | 8554 / 1935 / 8888 / 8889 / 8890 | MediaMTX protocol ports |
 | `METRICS_PORT` / `PLAYBACK_PORT` | 9998 / 9996 | MediaMTX metrics & playback-server ports |
 
@@ -211,6 +211,6 @@ CI (GitHub Actions) runs lint + build + smoke and a separate Playwright e2e job 
 
 Original project **[seekwhencer/mediamtx-ui](https://github.com/seekwhencer/mediamtx-ui)** by Matthias Kallenbach.
 
-**1.9.3 adaptation by deadSam** — retargeted to MediaMTX 1.9.3, reconstructed the reactive settings layer, added the Monitoring/Recordings/Playback tabs, i18n, theming, tests, and security hardening.
+**adaptation by deadSam** — retargeted to MediaMTX 1.21.2, reconstructed the reactive settings layer, added the Monitoring/Recordings/Playback tabs, i18n, theming, tests, and security hardening.
 
 Licensed **ISC** (as upstream).

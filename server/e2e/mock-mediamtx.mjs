@@ -1,5 +1,5 @@
 // Minimal mock of the MediaMTX v3 Control API for e2e tests, so the UI's
-// dashboard (which loads global/pathdefaults/paths on startup) can render
+// dashboard (which loads global/path-defaults/paths on startup) can render
 // without a real MediaMTX server.
 import http from "http";
 
@@ -13,7 +13,7 @@ const GLOBAL = {
     metrics: true,
     metricsAddress: ":9998",
     rtsp: true,
-    protocols: ["tcp", "udp"],
+    rtspTransports: ["tcp", "udp"],
     encryption: "no",
     rtspAddress: ":8554",
     rtmp: true,
@@ -43,7 +43,7 @@ const send = (res, code, obj) => {
 http.createServer((req, res) => {
     const u = (req.url || "").split("?")[0];
     if (u === "/v3/config/global/get") return send(res, 200, GLOBAL);
-    if (u === "/v3/config/pathdefaults/get") return send(res, 200, PATH_DEFAULTS);
+    if (u === "/v3/config/path-defaults/get") return send(res, 200, PATH_DEFAULTS);
     if (u === "/v3/config/paths/list") return send(res, 200, {itemCount: 0, pageCount: 0, items: []});
     if (u.endsWith("/list")) return send(res, 200, {itemCount: 0, pageCount: 0, items: []});
     if (req.method === "PATCH" || req.method === "POST" || req.method === "DELETE") {

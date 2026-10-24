@@ -78,7 +78,7 @@ export default class SettingsService {
         if (id !== this.debounce.loadPathDefaults)
             return;
 
-        const res = await this.fm.fetch('/mediamtx/config/pathdefaults/get', {
+        const res = await this.fm.fetch('/mediamtx/config/path-defaults/get', {
             headers: {
                 'CSRF-Token': this.csrfToken,
                 'Content-Type': 'application/json'
@@ -154,7 +154,7 @@ export default class SettingsService {
         const map = [
             'general', 'auth', 'api', 'pprof',
             'metrics', 'playback',
-            'rtsp', 'rtmp', 'hls', 'webrtc', 'srt'
+            'rtsp', 'rtmp', 'hls', 'webrtc', 'srt', 'moq'
         ];
 
         for (const storeKey of map) {
@@ -270,7 +270,7 @@ export default class SettingsService {
 
         const payload = this.store.path;
 
-        const res = await this.fm.fetch('/mediamtx/config/pathdefaults/patch', {
+        const res = await this.fm.fetch('/mediamtx/config/path-defaults/patch', {
             method: 'PATCH',
             headers: {
                 'CSRF-Token': this.csrfToken,

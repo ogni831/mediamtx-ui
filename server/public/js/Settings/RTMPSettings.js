@@ -10,7 +10,8 @@ export default class RTMPSettings extends Setting {
             'rtmpEncryption',
             'rtmpsAddress',
             'rtmpServerKey',
-            'rtmpServerCert'
+            'rtmpServerCert',
+            'rtmpTrustedProxies'
         ];
 
         this.options = {

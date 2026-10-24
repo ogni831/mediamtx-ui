@@ -3,11 +3,13 @@ import {t} from "../i18n.js";
 
 // Live connections / sessions exposed by the MediaMTX v3 API (read-only).
 const SECTIONS = [
-    {key: 'mon.rtspConns', url: '/mediamtx/rtspconns/list'},
-    {key: 'mon.rtspSessions', url: '/mediamtx/rtspsessions/list'},
-    {key: 'mon.rtmpConns', url: '/mediamtx/rtmpconns/list'},
-    {key: 'mon.srtConns', url: '/mediamtx/srtconns/list'},
-    {key: 'mon.webrtcSessions', url: '/mediamtx/webrtcsessions/list'},
+    {key: 'mon.rtspConns', url: '/mediamtx/rtsp/conns/list'},
+    {key: 'mon.rtspSessions', url: '/mediamtx/rtsp/sessions/list'},
+    {key: 'mon.rtmpConns', url: '/mediamtx/rtmp/conns/list'},
+    {key: 'mon.srtConns', url: '/mediamtx/srt/conns/list'},
+    {key: 'mon.webrtcSessions', url: '/mediamtx/webrtc/sessions/list'},
+    {key: 'mon.hlsSessions', url: '/mediamtx/hls/sessions/list'},
+    {key: 'mon.moqSessions', url: '/mediamtx/moq/sessions/list'},
 ];
 
 const COLUMNS = ['id', 'remoteAddr', 'state', 'path', 'bytesReceived', 'bytesSent'];

@@ -14,6 +14,7 @@ export default class SettingsStore {
         this.hls = null;
         this.webrtc = null;
         this.srt = null;
+        this.moq = null;
 
         this.path = null;
         this.paths = {};
@@ -32,6 +33,7 @@ export default class SettingsStore {
             ...this.hls,
             ...this.webrtc,
             ...this.srt,
+            ...this.moq,
             ...this.metrics,
         };
 

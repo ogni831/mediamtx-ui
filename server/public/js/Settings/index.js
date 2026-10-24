@@ -9,6 +9,7 @@ import RTMPSettings from "./RTMPSettings.js";
 import HLSSettings from "./HLSSettings.js";
 import WebRTCPSettings from "./WebRTCSettings.js";
 import SRTSettings from "./SRTSettings.js";
+import MoQSettings from "./MoQSettings.js";
 import PathSettings from "./PathSettings.js";
 import PathsSettings from "./PathsSettings.js";
 import UsersSettings from "./UsersSettings.js";
@@ -25,6 +26,7 @@ export {
     HLSSettings,
     WebRTCPSettings,
     SRTSettings,
+    MoQSettings,
     PathSettings,
     PathsSettings,
     UsersSettings

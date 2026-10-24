@@ -1,7 +1,7 @@
 ###############################################
 # mediamtx-ui default configuration
 #
-# Tailored for MediaMTX v1.9.3 + mediamtx-ui.
+# Tailored for MediaMTX v1.21.2 + mediamtx-ui.
 # Copy this file to config/mediamtx.yml and adjust if needed.
 #
 # The Control API and metrics are REQUIRED by mediamtx-ui and are
@@ -25,8 +25,7 @@ playbackAddress: :9996
 
 # RTSP
 rtsp: yes
-# In 1.9.3 the RTSP transports key is "protocols" (renamed to rtspTransports in newer versions).
-protocols: [tcp, udp, multicast]
+rtspTransports: [tcp, udp, multicast]
 rtspAddress: :8554
 
 # RTMP
