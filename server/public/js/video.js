@@ -5,7 +5,9 @@ export default class Video {
         this.stream = stream;
         this.name = this.stream.data.confName;
         this.hls = null;
-        // 'hls' (hls.js <video>) | 'webrtc' (MediaMTX's built-in WHEP player via iframe)
+        // 'hls' (hls.js <video>, самодостатній — без iframe/ICE) | 'webrtc'
+        // (MediaMTX WHEP-reader через iframe). За reverse-proxy HLS надійніший,
+        // тож лишаємо дефолтом (${origin}/mediamtx-hls/{name}/index.m3u8).
         this.mode = 'hls';
     }
 
@@ -129,16 +131,19 @@ export default class Video {
         this.element?.remove();
     }
 
+    // Stream через same-origin reverse-proxy, а НЕ прямі порти MediaMTX
+    // (:8888 HLS / :8889 WebRTC зовні зазвичай не відкриті). У fire-monitoring
+    // nginx проксує MediaMTX на ${origin}/mediamtx/ (WebRTC/WHEP+reader :8889)
+    // та ${origin}/mediamtx-hls/ (HLS :8888). Для standalone-деплою з прямими
+    // портами задати window.MEDIAMTX_HLS_BASE / MEDIAMTX_WEBRTC_BASE.
     get hlsUrl() {
-        const url = new URL(window.location.href);
-        const addr = this.stream.tab.settings?.hls?.hlsAddress ?? ':8888';
-        return `${url.protocol}//${url.hostname}${addr}/${this.name}/index.m3u8`;
+        const base = window.MEDIAMTX_HLS_BASE || `${window.location.origin}/mediamtx-hls`;
+        return `${base}/${this.name}/index.m3u8`;
     }
 
-    // MediaMTX serves its own WebRTC/WHEP reader page at http://host:<webrtc>/<path>/
+    // MediaMTX serves its own WebRTC/WHEP reader page at <base>/<path>/
     get webrtcUrl() {
-        const url = new URL(window.location.href);
-        const addr = this.stream.tab.settings?.webrtc?.webrtcAddress ?? ':8889';
-        return `${url.protocol}//${url.hostname}${addr}/${this.name}/`;
+        const base = window.MEDIAMTX_WEBRTC_BASE || `${window.location.origin}/mediamtx`;
+        return `${base}/${this.name}/`;
     }
 }

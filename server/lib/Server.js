@@ -87,6 +87,19 @@ export default class Server extends Events {
         this.generateCsrfToken = generateToken;
         this._invalidCsrfTokenError = invalidCsrfTokenError;
 
+        // Auth-bypass для довіреного reverse-proxy деплою: коли AUTH_DISABLED=true,
+        // кожен запит вважається автентифікованим (власна форма логіну не
+        // показується). Призначено для роботи ЗА nginx з auth_basic перед
+        // /mediamtx-ui/ (як Frigate/YOLO) — зовнішній proxy і є межею auth.
+        if (process.env.AUTH_DISABLED === 'true') {
+            this.engine.use((req, res, next) => {
+                if (req.session && !req.session.isAuthenticated) {
+                    req.session.isAuthenticated = true;
+                }
+                next();
+            });
+        }
+
         // authentication
         this.authRoutes = new AuthRoutes(this);
         this.engine.use('/auth', this.authRoutes.router);

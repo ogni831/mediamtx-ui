@@ -54,6 +54,9 @@ export default class PathDefaultsTab extends Tab {
 
                 if (col.props) {
                     col.props.forEach(prop => {
+                        // Version-adaptive: skip fields the loaded MediaMTX did
+                        // not return (props list is a 1.9.3+1.19.1 superset).
+                        if (store === undefined || store[prop] === undefined) return;
                         const item = new FormItem({
                             parent: this,
                             storeKey: storeKey,
@@ -77,6 +80,7 @@ export default class PathDefaultsTab extends Tab {
             const groupElement = document.createElement("div");
             groupElement.className = "group fields";
             this.group.props.forEach(prop => {
+                  if (store === undefined || store[prop] === undefined) return;
                   const item = new FormItem({
                     parent: this,
                     storeKey: storeKey,

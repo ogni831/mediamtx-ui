@@ -4,13 +4,18 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Stream View</title>
-    <link rel="stylesheet" href="/css/page.css"/>
+    <!-- Sub-path shim (зовнішній файл, не module, до app-скриптів): префіксує
+         root-абсолютні fetch/XHR-URL під-шляхом, коли застосунок проксюється під
+         /mediamtx-ui/. No-op при serving з кореня. Відносні asset-шляхи (css/,
+         js/) резолвляться від URL документа самі — тому <base>/sub_filter не треба. -->
+    <script src="js/base-shim.js"></script>
+    <link rel="stylesheet" href="css/page.css"/>
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 </head>
 <body>
 <header></header>
 
-<script type="module" src="/js/index.js"></script>
-<script type="module" src="/js/dev.js"></script>
+<script type="module" src="js/index.js"></script>
+<script type="module" src="js/dev.js"></script>
 </body>
 </html>

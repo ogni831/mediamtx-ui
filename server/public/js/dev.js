@@ -10,15 +10,19 @@ const wsPort = 35729;
 const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
 const wsHost = window.location.hostname;
 
-// The livereload server only exists during local development. In production
-// nothing listens on this port, so guard the connection to avoid an uncaught
-// error and a noisy console on every page load.
+// The livereload server only exists during local development. У проді
+// (не localhost) НЕ створюємо WebSocket взагалі — інакше браузер логує
+// console-помилку підключення на кожне завантаження сторінки, і її НЕ
+// приховати try/catch (помилка рівня браузера, не виняток JS).
 let ws = null;
-try {
-    ws = new WebSocket(`${protocol}://${wsHost}:${wsPort}`);
-    ws.onerror = () => { /* livereload server not running – ignore */ };
-} catch (e) {
-    ws = null;
+const isLocalDev = wsHost === 'localhost' || wsHost === '127.0.0.1';
+if (isLocalDev) {
+    try {
+        ws = new WebSocket(`${protocol}://${wsHost}:${wsPort}`);
+        ws.onerror = () => { /* livereload server not running – ignore */ };
+    } catch (e) {
+        ws = null;
+    }
 }
 
 const linkMap = new Map();
