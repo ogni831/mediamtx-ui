@@ -30,7 +30,7 @@
   "dependencies": {
     "argon2": "^0.45.1",
     "csrf-sync": "^4.2.1",
-    "esbuild": "^0.28.1",
+    "esbuild": "^0.28.2",
     "express": "^5.1.0",
     "express-rate-limit": "^8.6.0",
     "express-session": "^1.19.0",
